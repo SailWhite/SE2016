@@ -5,7 +5,41 @@ var Login = Vue.extend({
 })
 
 var Signup = Vue.extend({
-    template: '#signup-template'
+    template: '#signup-template',
+    data: function () {
+        data = {
+            username: "",
+            email: "",
+            password: "",
+        }
+        return data
+    },
+    methods: {
+        submit: function () {
+            signup_data = {
+                user:{
+                    username: this.username,
+                    email: this.email,
+                    password: this.password
+                }
+            }
+            this.$http.post(API_BASE_URL + '/users',
+                            signup_data).then(
+                                function (response) {
+                                    alert("Signup Success")
+                                    router.go("/login")
+                                    console.log(response)
+                                },
+                                function (response) {
+                                    console.log(response)
+                                })
+        },
+        reset: function () {
+            this.username = ""
+            this.email = ""
+            this.password = ""
+        }
+    }
 })
 
 var Activities = Vue.extend({
