@@ -21,7 +21,16 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String username;
+    private String password;
+    private int authority; 
 
+    public User(String username, String password, int authority) {
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
+    
     public Long getId() {
         return id;
     }
