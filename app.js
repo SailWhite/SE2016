@@ -17,7 +17,19 @@ var Notifications = Vue.extend({
 })
 
 var Questions = Vue.extend({
-    template: '#questions-template'
+    template: '#questions-template',
+    data: function () {
+        data = {
+            questions: []
+        }
+        return data
+    },
+    ready: function () {
+        this.$http.get(API_BASE_URL + '/questions',
+                       function (response) {
+                           this.questions = response["questions"]
+                       })
+    }
 })
 
 var Answers = Vue.extend({

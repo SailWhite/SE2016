@@ -38,6 +38,11 @@
 
         <template id="questions-template">
             <h2>Questions</h2>
+            <ul>
+                <li v-for="question in questions">
+                    {{ question.content }}
+                </li>
+            </ul>
         </template>
 
         <template id="answers-template">
