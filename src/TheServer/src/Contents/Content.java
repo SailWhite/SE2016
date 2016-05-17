@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
+import javax.persistence.OneToOne;
+//import java.sql.Date;
 
 /**
  *
@@ -23,6 +26,19 @@ public class Content implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private Long content_id;
+    private String text;
+    @OneToOne
+    private Long user_id;
+    private Date time;
+    
+    public Content(Long content_id, String text, Long user_id, Date time) {
+        this.content_id = content_id;
+        this.text = text;
+        this.user_id = user_id;
+        this.time = time;
+    }
 
     public Long getId() {
         return id;

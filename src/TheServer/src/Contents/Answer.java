@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +26,19 @@ public class Answer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne
+    private Long answer_id;
+    @OneToMany
+    private Long question_id;
+    @OneToOne
+    private Long content_id;
+    
+    public Answer(Long answer_id, Long question_id, Long content_id) {
+        this.answer_id = answer_id;
+        this.question_id = question_id;
+        this.content_id = content_id;
+    }
 
     public Long getId() {
         return id;
