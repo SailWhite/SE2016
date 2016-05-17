@@ -10,12 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author sailw
  */
 @Entity
+@Table(name="JPAUser")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -24,6 +26,9 @@ public class User implements Serializable {
     private String username;
     private String password;
     private int authority; 
+
+    public User() {
+    }
 
     public User(String username, String password, int authority) {
         this.username = username;
@@ -53,15 +58,12 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "Core.User[ id=" + id + " ]";
+        return "Core.User[ id=" + id + "name = " + username + " ]";
     }
     
 }
