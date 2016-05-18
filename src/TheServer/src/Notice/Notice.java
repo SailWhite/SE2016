@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.OneToOne;
+import java.util.Date;
 
 /**
  *
@@ -24,7 +26,17 @@ public class Notice implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Long getId() {
+    private Long notice_id;
+    @OneToOne
+    private Long content_id;
+    private Date push_time;
+    public Notice(Long notice_id, Long content_id, Date push_time) {
+        this.notice_id = notice_id;
+	this.content_id = content_id;
+	this.push_time = push_time;
+    }
+	
+	public Long getId() {
         return id;
     }
 
