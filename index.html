@@ -66,6 +66,7 @@
 
         <template id="questions-template">
             <h2>Questions</h2>
+            <button v-link="{ path: '/questions/create' }">Create Question</button>
             <ul>
                 <li v-for="question in questions">
                     <a v-link="{ path: '/questions/' + question.id }">{{ question.title }}</a>
@@ -85,6 +86,22 @@
                     </p>
                 </li>
             </ul>
+        </template>
+
+        <template id="question-create-template">
+            <h2>Create Question</h2>
+            <form v-on:submit.prevent="create_question">
+                <label for="">Question</label>
+                <div>
+                    <input v-model="title" type="text">
+                </div>
+                <label for="">Content</label>
+                <div>
+                    <textarea v-model="content"></textarea>
+                </div>
+                <button v-on:click.prevent="create_question">Submit</button>
+                <button v-on:click.prevent="reset">Reset</button>
+            </form>
         </template>
 
         <template id="answers-template">
