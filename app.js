@@ -66,6 +66,21 @@ var Questions = Vue.extend({
     }
 })
 
+var SingleQuestion = Vue.extend({
+    template: '#single-question-template',
+    data: function () {
+        return {
+            question: null
+        }
+    },
+    ready: function () {
+        this.$http.get(API_BASE_URL + '/questions/' + this.$route.params["question_id"],
+                       function (response) {
+                           this.question = response["question"]
+                       })
+    }
+})
+
 var Answers = Vue.extend({
     template: '#answers-template'
 })
@@ -89,6 +104,9 @@ router.map({
     },
     '/questions': {
         component: Questions
+    },
+    '/questions/:question_id': {
+        component: SingleQuestion
     },
     '/answers': {
         component: Answers

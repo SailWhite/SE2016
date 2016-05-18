@@ -61,6 +61,20 @@
             </ul>
         </template>
 
+        <template id="single-question-template">
+            <h2>{{ question.title }}</h2>
+            <p>
+                {{ question.content }}
+            </p>
+            <ul>
+                <li v-for="answer in question.answers">
+                    <p>
+                        {{ answer.content }}
+                    </p>
+                </li>
+            </ul>
+        </template>
+
         <template id="answers-template">
             <h2>Answers</h2>
         </template>
