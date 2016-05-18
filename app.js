@@ -1,7 +1,40 @@
 var API_BASE_URL = 'http://localhost:3000'
 
 var Login = Vue.extend({
-    template: '#login-template'
+    template: '#login-template',
+    data: function () {
+        data = {
+            email: "",
+            password: "",
+        }
+        return data
+    },
+    methods: {
+        submit: function () {
+            login_data = {
+                user:{
+                    email: this.email,
+                    password: this.password
+                }
+            }
+            console.log(this.user)
+            this.$http.get(API_BASE_URL + '/users',
+                            login_data).then(
+                                function (response) {
+                                    alert("Login Success")
+                                    this.$root.user = response["data"].user
+                                    router.go("/")
+                                    console.log(response)
+                                },
+                                function (response) {
+                                    console.log(response)
+                                })
+        },
+        reset: function () {
+            this.email = ""
+            this.password = ""
+        }
+    }
 })
 
 var Signup = Vue.extend({
@@ -85,7 +118,13 @@ var Answers = Vue.extend({
     template: '#answers-template'
 })
 
-var App = Vue.extend({})
+var App = Vue.extend({
+    data: function () {
+        return {
+            user: null
+        }
+    }
+})
 
 var router = new VueRouter()
 

@@ -22,6 +22,18 @@
 
         <template id="login-template">
             <h2>Login</h2>
+            <form v-on:submit.prevent="submit">
+                <div>
+                    <label>Email:</label>
+                    <input v-model="email" type="email">
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input v-model="password" type="password">
+                </div>
+                <button>Submit</button>
+                <button v-on:click.prevent="reset">Reset</button>
+            </form>
         </template>
 
         <template id="signup-template">
