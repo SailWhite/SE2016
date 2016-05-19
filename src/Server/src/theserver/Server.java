@@ -16,7 +16,7 @@ import javax.persistence.*;
  *
  * @author sailw
  */
-public class TheServer {
+public class Server {
 
     /**
      * @param args the command line arguments
