@@ -137,6 +137,38 @@ var QuestionCreate = Vue.extend({
     }
 })
 
+var AnswerQuestion = Vue.extend({
+    template: '#answer-question-template',
+    data: function () {
+        return {
+            question: null,
+            content: null
+        }
+    },
+    ready: function () {
+        this.$http.get(API_BASE_URL + '/questions/' + this.$route.params["question_id"],
+                       function (response) {
+                           this.question = response["question"]
+                       })
+    },
+    methods: {
+        create_answer: function () {
+            answer_data = {
+                answer: {
+                    question_id: this.$route.params["question_id"],
+                    content: this.content
+                }
+            }
+            this.$http.post(API_BASE_URL + '/answers',
+                            answer_data,
+                            function (response) {
+                                console.log(response)
+                                router.go('/questions/' + this.$route.params["question_id"])
+                            })
+        }
+    }
+})
+
 var Answers = Vue.extend({
     template: '#answers-template'
 })
@@ -172,6 +204,9 @@ router.map({
     },
     '/questions/create': {
         component: QuestionCreate
+    },
+    '/questions/:question_id/answer': {
+        component: AnswerQuestion
     },
     '/answers': {
         component: Answers

@@ -79,6 +79,7 @@
             <p>
                 {{ question.content }}
             </p>
+            <button v-link="{ path: '/questions/' + question.id + '/answer' }">Answer this question</button>
             <ul>
                 <li v-for="answer in question.answers">
                     <p>
@@ -100,6 +101,21 @@
                     <textarea v-model="content"></textarea>
                 </div>
                 <button v-on:click.prevent="create_question">Submit</button>
+                <button v-on:click.prevent="reset">Reset</button>
+            </form>
+        </template>
+
+        <template id="answer-question-template">
+            <h2>{{ question.title }}</h2>
+            <p>
+                {{ question.content }}
+            </p>
+            <form v-on:submit.prevent="create_question">
+                <label for="">Answer</label>
+                <div>
+                    <textarea v-model="content"></textarea>
+                </div>
+                <button v-on:click.prevent="create_answer">Submit</button>
                 <button v-on:click.prevent="reset">Reset</button>
             </form>
         </template>
