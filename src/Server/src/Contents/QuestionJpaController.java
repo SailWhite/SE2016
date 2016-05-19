@@ -133,5 +133,9 @@ public class QuestionJpaController implements Serializable {
             em.close();
         }
     }
+
+    public void edit(Answer answer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

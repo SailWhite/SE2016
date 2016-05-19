@@ -134,5 +134,9 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
+
+    User findUser(String userName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

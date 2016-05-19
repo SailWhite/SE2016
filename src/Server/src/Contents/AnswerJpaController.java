@@ -133,5 +133,8 @@ public class AnswerJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Answer> findAnswerOf(Question question) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

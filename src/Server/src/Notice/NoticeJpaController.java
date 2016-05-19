@@ -134,5 +134,13 @@ public class NoticeJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<Notice> findNoticeOfUID(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Notice> findOnPushNotices() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

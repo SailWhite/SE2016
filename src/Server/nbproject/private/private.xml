@@ -3,7 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/TheServer/src/theserver/Server.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Contents/AnswerJpaController.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Core/Operation.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Contents/Answer.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/theserver/Server.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Contents/Question.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Contents/Content.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Core/User.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Notice/NoticeJpaController.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Notice/Notice.java</file>
+            <file>file:/C:/Users/sailw/Documents/GitHub/SE2016/src/Server/src/Core/Activity.java</file>
         </group>
     </open-files>
 </project-private>

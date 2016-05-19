@@ -5,6 +5,7 @@
  */
 package Contents;
 
+import Core.User;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 //import java.sql.Date;
 
 /**
@@ -26,18 +29,18 @@ public class Content implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private Long content_id;
     private String text;
-    @OneToOne
-    private Long user_id;
-    private Date time;
+    @ManyToOne
+    private User user;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date gen_time;
+
+    public Content() {
+    }
     
-    public Content(Long content_id, String text, Long user_id, Date time) {
-        this.content_id = content_id;
-        this.text = text;
-        this.user_id = user_id;
-        this.time = time;
+
+    public Content(User user, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Long getId() {

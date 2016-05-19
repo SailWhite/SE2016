@@ -6,10 +6,14 @@
 package Core;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,9 +27,13 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable=false, unique=true)
     private String username;
+    @Column(nullable=false)
     private String password;
-    private int authority; 
+    private int authority;
+    @ManyToMany(mappedBy = "users")
+    private Set<Activity> actSet=new HashSet<Activity>();
 
     public User() {
     }
@@ -64,6 +72,14 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "Core.User[ id=" + id + "name = " + username + " ]";
+    }
+
+    boolean ckeckPwd(String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void participate(Activity activity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package Contents;
 
+import Core.User;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,14 +27,15 @@ public class Question implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany
-    private Long question_id;
     @OneToOne
-    private Long content_id;
-    
-    public Question(Long question_id, Long content_id) {
-        this.question_id = question_id;
-        this.content_id = content_id;
+    private Content content;
+
+    public Question() {
+    }
+
+
+    public Question(Content content) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Long getId() {
@@ -67,6 +69,10 @@ public class Question implements Serializable {
     @Override
     public String toString() {
         return "Contents.Question[ id=" + id + " ]";
+    }
+
+    public boolean isAuth(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

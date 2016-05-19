@@ -5,6 +5,8 @@
  */
 package Notice;
 
+import Contents.Content;
+import Core.Activity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 import java.util.Date;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -26,13 +31,21 @@ public class Notice implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long notice_id;
     @OneToOne
-    private Long content_id;
-    private Date push_time;
-    public Notice(Long notice_id, Long content_id, Date push_time) {
-        this.notice_id = notice_id;
-	this.content_id = content_id;
+    private final Content content;
+    @ManyToOne
+    private Activity activity;
+    @Temporal(TemporalType.DATE)
+    private final Date push_time;
+
+    public Notice() {
+        content=null;
+        activity=null;
+        push_time=null;
+    }
+    
+    public Notice(Activity activity, Content content, Date push_time) {
+	this.content = content;
 	this.push_time = push_time;
     }
 	
