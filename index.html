@@ -4,18 +4,34 @@
     </head>
 
     <body>
-        <h1>Students Study Assistent System</h1>
-        <hr>
         <div id="app">
-            <p>
-                <a v-link="{ path: '/login' }">Login</a>
-                <a v-link="{ path: '/signup' }">Signup</a>
-                <a v-link="{ path: '/activities' }">Activities</a>
-                <a v-link="{ path: '/notifications' }">Notifications</a>
-                <a v-link="{ path: '/questions' }">Questions</a>
-                <a v-link="{ path: '/answers' }">Answers</a>
-            </p>
-            <hr>
+            <div class="navbar navbar-default">
+                <a class="navbar-brand" v-link="'/'">Study Assistent</a>
+
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a v-link="{ path: '/activities' }">Activities</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/notifications' }">Notifications</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/questions' }">Questions</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/answers' }">Answers</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a v-link="{ path: '/login' }">Login</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/signup' }">Signup</a>
+                    </li>
+                </ul>
+            </div>
 
             <router-view></router-view>
         </div>
