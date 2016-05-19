@@ -104,12 +104,19 @@
 
         <template id="questions-template">
             <h2>Questions</h2>
-            <button v-link="{ path: '/questions/create' }">Create Question</button>
-            <ul>
-                <li v-for="question in questions">
-                    <a v-link="{ path: '/questions/' + question.id }">{{ question.title }}</a>
-                </li>
-            </ul>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="question in questions">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a v-link="{ path: '/questions/' + question.id }">{{ question.title }}</a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.content }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="{ path: '/questions/create' }">Create Question</button>
         </template>
 
         <template id="single-question-template">
