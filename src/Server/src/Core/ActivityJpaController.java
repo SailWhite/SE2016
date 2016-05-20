@@ -134,5 +134,13 @@ public class ActivityJpaController implements Serializable {
             em.close();
         }
     }
+
+    List<Activity> findActivitiesByUser(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Activity findActivityByNid(Long aLong) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

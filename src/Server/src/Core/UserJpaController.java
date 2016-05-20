@@ -9,6 +9,7 @@ import Contents.exceptions.NonexistentEntityException;
 import Core.User;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -22,6 +23,17 @@ import javax.persistence.criteria.Root;
  */
 public class UserJpaController implements Serializable {
 
+    private static String getRandomString(int length) { 
+        String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";   
+        Random random = new Random();   
+        StringBuffer sb = new StringBuffer();   
+        for (int i = 0; i < length; i++) {   
+            int number = random.nextInt(base.length());   
+            sb.append(base.charAt(number));   
+        }   
+        return sb.toString();   
+     }  
+    
     public UserJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -32,6 +44,7 @@ public class UserJpaController implements Serializable {
     }
 
     public void create(User user) {
+        user.setToken(getRandomString(32));
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -136,6 +149,10 @@ public class UserJpaController implements Serializable {
     }
 
     User findUser(String userName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    User findUserByToken(String token) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -9,6 +9,8 @@ import Contents.*;
 import Contents.exceptions.NonexistentEntityException;
 import Notice.*;
 import static java.lang.Thread.sleep;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +30,7 @@ public class Operation {
     private final QuestionJpaController questionJpaController;
     private final NoticeJpaController noticeJpaController;
     
-    Operation(EntityManagerFactory emf) {
+    public Operation(EntityManagerFactory emf) {
         this.emf = emf;
         userJpaController=new UserJpaController(emf);
         activityJpaController=new ActivityJpaController(emf);
@@ -36,23 +38,6 @@ public class Operation {
         contentJpaController=new ContentJpaController(emf);
         questionJpaController=new QuestionJpaController(emf);
         noticeJpaController=new NoticeJpaController(emf);
-        
-        Thread thread = new Thread(()->{
-            List<Notice> notices=noticeJpaController.findOnPushNotices();
-            for(Notice notice:notices) {
-                //ToDo: push(notice) for all participated users
-                try {
-                    noticeJpaController.destroy(notice.getId());
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(Operation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            try {
-                sleep(30);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Operation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
     }
     
     public User login(String userName, String password) {
@@ -69,115 +54,146 @@ public class Operation {
         return user;
     }
     
-    public Activity addActivity(User user, String string) {
+    public Activity addActivity(String token, String string) {
+        User user=userJpaController.findUserByToken(token);
         Content content=new Content(user, string);
         Activity activity =new Activity(content);
         activityJpaController.create(activity);
         return activity;
     }
     
-    List<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activityJpaController.findActivityEntities();
     }
     
-    Activity getActivity(Long id) {
-        return activityJpaController.findActivity(id);
+    public List<Activity> getActivities(String token) {
+        User user=userJpaController.findUserByToken(token);
+        return activityJpaController.findActivitiesByUser(user);
     }
     
-    void participate(User user, Activity activity) throws Exception {
+    public void participate(String token, String id) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivity(Long.getLong(id));
         user.participate(activity);
         activity.participated(user);
         userJpaController.edit(user);
         activityJpaController.edit(activity);
     }
     
-    boolean updateActivity(User user, Activity activity) throws Exception {
-        if(!activity.isAuth(user))return false;
+    public boolean updateActivity(String token, String id, String string) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivity(Long.getLong(id));
+        if(!activity.isAuth(user))throw new Exception();
+        activity.setContent(string);
         activityJpaController.edit(activity);
         return true;
     }
     
-    boolean deleteActivity(User user, Activity activity) throws NonexistentEntityException {
-        if(!activity.isAuth(user))return false;
+    public boolean deleteActivity(String token, String id) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivity(Long.getLong(id));
+        if(!activity.isAuth(user))throw new Exception();
         activityJpaController.destroy(activity.getId());
         return true;
     }
     
-    Notice addNotice(User user, Activity activity, String string, Date push_time) {
-        if(!activity.isAuth(user))return null;
+    public Notice addNotice(String token, String id, String string, String push_time) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+        Date date = sdf.parse(push_time);  
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivity(Long.getLong(id));
+        if(!activity.isAuth(user))throw new Exception();
         Content content=new Content(user, string);
-        Notice notice=new Notice(activity, content, push_time);
+        Notice notice=new Notice(activity, content, date);
         noticeJpaController.create(notice);
         return notice;
     }
     
-    List<Notice> getNoticeOfUser(User user) {
+    public List<Notice> getNoticeOfUser(User user) {
         return noticeJpaController.findNoticeOfUID(user.getId());
     }
     
-    Notice updateNotice(User user, Activity activity, Notice notice) throws Exception {
-        if(!activity.isAuth(user))return null;
+    public Notice updateNotice(String token, String id, String string, String push_time) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+        Date date = sdf.parse(push_time); 
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivityByNid(Long.getLong(id));
+        if(!activity.isAuth(user))throw new Exception();
+        Notice notice=noticeJpaController.findNotice(Long.getLong(id));
+        notice.setContent(string);
+        notice.setPushtime(date);
         noticeJpaController.edit(notice);
         return notice;
     }
     
-    Notice deleteNotice(User user, Activity activity, Notice notice) throws NonexistentEntityException {
-        if(!activity.isAuth(user))return null;
+    public Notice deleteNotice(String token, String id) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Activity activity =activityJpaController.findActivityByNid(Long.getLong(id));
+        if(!activity.isAuth(user))throw new Exception();
+        Notice notice=noticeJpaController.findNotice(Long.getLong(id));
         noticeJpaController.destroy(notice.getId());
         return notice;
     }
     
-    Question addQuestion(User user, String string) {
+    public Question addQuestion(String token, String string) {
+        User user=userJpaController.findUserByToken(token);
         Content content=new Content(user, string);
         Question question =new Question(content);
         questionJpaController.create(question);
         return question;
     }
     
-    List<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questionJpaController.findQuestionEntities();
     }
     
-    Question getQuestion(Long id) {
-        return questionJpaController.findQuestion(id);
-    }
-    
-    boolean updateQuestion(User user, Question question) throws Exception {
-        if(!question.isAuth(user))return false;
+    public boolean updateQuestion(String token, String id, String string) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Question question =questionJpaController.findQuestion(Long.getLong(id));
+        if(!question.isAuth(user))throw new Exception();
+        question.setContent(string);
         questionJpaController.edit(question);
         return true;
     }
     
-    boolean deleteQuestion(User user, Question question) throws NonexistentEntityException {
-        if(!question.isAuth(user))return false;
+    public boolean deleteQuestion(String token, String id) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Question question =questionJpaController.findQuestion(Long.getLong(id));
+        if(!question.isAuth(user))throw new Exception();
         questionJpaController.destroy(question.getId());
         return true;
     }
-    
-    Answer addAnswer(User user, Question question, String string) {
+
+     public Answer addAnswer(String token, String id, String string) {
+        User user=userJpaController.findUserByToken(token);
         Content content=new Content(user, string);
+        Question question=questionJpaController.findQuestion(Long.getLong(id));
         Answer answer =new Answer(question, content);
         answerJpaController.create(answer);
         return answer;
     }
     
-    List<Answer> getAnswers(Question question) {
-        return answerJpaController.findAnswerOf(question);
+    public List<Question> getAnswers(String id) {
+        Question question=questionJpaController.findQuestion(Long.getLong(id));
+        return answerJpaController.findAnswersByQuestion(question);
     }
     
-    Answer getAnswer(Long id) {
-        return answerJpaController.findAnswer(id);
-    }
-    
-    boolean updateAnswer(User user, Answer answer) throws Exception {
-        if(!answer.isAuth(user))return false;
-        questionJpaController.edit(answer);
+    public boolean updateAnswer(String token, String id, String string) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Answer answer =answerJpaController.findAnswer(Long.getLong(id));
+        if(!answer.isAuth(user))throw new Exception();
+        answer.setContent(string);
+        answerJpaController.edit(answer);
         return true;
     }
     
-    boolean deleteAnswer(User user, Answer answer) throws NonexistentEntityException {
-        if(!answer.isAuth(user))return false;
-        questionJpaController.destroy(answer.getId());
+    public boolean deleteAnswer(String token, String id) throws Exception {
+        User user=userJpaController.findUserByToken(token);
+        Answer answer =answerJpaController.findAnswer(Long.getLong(id));
+        if(!answer.isAuth(user))throw new Exception();
+        answerJpaController.destroy(answer.getId());
         return true;
     }
+    
+    
 }

@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 //import java.sql.Date;
 

@@ -34,7 +34,8 @@ public class User implements Serializable {
     private int authority;
     @ManyToMany(mappedBy = "users")
     private Set<Activity> actSet=new HashSet<Activity>();
-
+    private String token;
+    
     public User() {
     }
 
@@ -79,6 +80,14 @@ public class User implements Serializable {
     }
 
     void participate(Activity activity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Object getToken() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void setToken(String randomString) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
