@@ -169,18 +169,34 @@
         </template>
 
         <template id="answer-question-template">
-            <h2>{{ question.title }}</h2>
-            <p>
-                {{ question.content }}
-            </p>
-            <form v-on:submit.prevent="create_question">
-                <label for="">Answer</label>
-                <div>
-                    <textarea v-model="content"></textarea>
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ question.title }}
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.content }}
+
+                    </div>
                 </div>
-                <button v-on:click.prevent="create_answer">Submit</button>
-                <button v-on:click.prevent="reset">Reset</button>
-            </form>
+                <hr>
+                <form class="form-horizontal" v-on:submit.prevent="create_answer">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="">Answer</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" v-model="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-primary" v-on:click.prevent="create_answer">Submit</button>
+                            <button class="btn btn-warning" v-on:click.prevent="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </template>
 
         <template id="answers-template">
