@@ -30,7 +30,7 @@ public class Content implements Serializable {
     private Long id;
     private String text;
     @ManyToOne
-    private User user;
+    private User author;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date gen_time;
 
@@ -38,8 +38,8 @@ public class Content implements Serializable {
     }
     
 
-    public Content(User user, String string) {
-        this.user = user;
+    public Content(User author, String string) {
+        this.author = author;
         this.text = string;
     }
 
@@ -74,6 +74,14 @@ public class Content implements Serializable {
     @Override
     public String toString() {
         return "Contents.Content[ id=" + id + " ]";
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public String getText() {
+        return text;
     }
     
 }

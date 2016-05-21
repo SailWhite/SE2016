@@ -6,6 +6,7 @@
 package Notice;
 
 import Contents.exceptions.NonexistentEntityException;
+import Core.User;
 import Notice.Notice;
 import java.io.Serializable;
 import java.util.List;
@@ -140,6 +141,10 @@ public class NoticeJpaController implements Serializable {
     }
 
     public List<Notice> findOnPushNotices() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Notice> findNoticesByUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

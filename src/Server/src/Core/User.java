@@ -32,7 +32,7 @@ public class User implements Serializable {
     @Column(nullable=false)
     private String password;
     private int authority;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "participater")
     private Set<Activity> actSet=new HashSet<Activity>();
     private String token;
     
@@ -80,7 +80,7 @@ public class User implements Serializable {
     }
 
     void participate(Activity activity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        actSet.add(activity);
     }
 
     public Object getToken() {
@@ -89,6 +89,10 @@ public class User implements Serializable {
 
     void setToken(String randomString) {
         token=randomString;
+    }
+
+    public String getUsername() {
+        return username;
     }
     
 }

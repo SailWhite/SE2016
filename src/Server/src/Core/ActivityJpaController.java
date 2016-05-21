@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -114,6 +115,7 @@ public class ActivityJpaController implements Serializable {
     }
 
     public Activity findActivity(Long id) {
+        //System.out.println(id);
         EntityManager em = getEntityManager();
         try {
             return em.find(Activity.class, id);
@@ -136,7 +138,11 @@ public class ActivityJpaController implements Serializable {
     }
 
     List<Activity> findActivitiesByUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        TypedQuery query=em.createQuery("SELECT a FROM Activity a where a.content in (select c FROM Content c where c.author=?1)", Activity.class);
+        query.setParameter(1,user);
+        List<Activity> activity = query.getResultList();
+        return activity;
     }
 
     Activity findActivityByNid(Long aLong) {

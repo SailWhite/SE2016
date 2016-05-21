@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,7 +38,7 @@ public class Activity implements Serializable {
     @JoinTable(name="participate",    
             joinColumns={        @JoinColumn(name="aid",referencedColumnName="id")    },    
             inverseJoinColumns={         @JoinColumn(name="uid",referencedColumnName="id")    })     
-    protected Set<User> users=new HashSet<>();
+    protected Set<User> participater=new HashSet<>();
 
     public Activity() {
     }
@@ -80,15 +81,24 @@ public class Activity implements Serializable {
     }
 
     public boolean isAuth(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content.getAuthor().equals(user);
     }
 
     public void participated(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        participater.add(user);
     }
 
-    public void setContent(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setContent(Content content) {
+        this.content=content;
+        
+    }
+
+    public User getAuthor() {
+        return content.getAuthor();
+    }
+
+    public Content getContent() {
+        return content;
     }
     
 }

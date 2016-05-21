@@ -13,9 +13,13 @@ import Contents.exceptions.NonexistentEntityException;
 import Core.Activity;
 import Core.Operation;
 import Core.User;
+import Notice.Notice;
 import com.google.gson.*;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -55,6 +59,11 @@ public class Server {
         tokenMap=gson.fromJson(tokenJson, tokenMap.getClass());
         String token=tokenMap.get("token");
         System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
+        System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is a god.\"}"));
+        System.out.println(process("{\"command\":\"getActivities\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
+        System.out.println(process("{\"command\":\"participate\",\"token\":\""+token+"\",\"id\":\"3\"}"));
+        System.out.println(process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is not a god.\",\"id\":\"5\"}"));
+        System.out.println(process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"5\"}"));
         
     }
     
@@ -97,19 +106,34 @@ public class Server {
         
         if(command.equals("getActivities")) {
             result.put("result", "Success");
+            List<Activity> activities;
             if(token==null || token.isEmpty()) {
-                result.put("activities", new Gson().toJson(operation.getActivities()));
+                activities=operation.getActivities();
             } else {
-                result.put("activities", new Gson().toJson(operation.getActivities(token)));
+                activities=operation.getActivities(token);
             }
+            Map<String,String> act=new HashMap<>();
+            Map<String,String> usr=new HashMap<>();
+            for(Activity activity:activities) {
+                act.clear();
+                act.put("id", activity.getId().toString());
+                act.put("content", activity.getContent().getText());
+                User author=activity.getAuthor();
+                usr.clear();
+                usr.put("id", author.getId().toString());
+                usr.put("username", author.getUsername());
+                act.put("author", new Gson().toJson(usr));
+            }
+            result.put("activities", new Gson().toJson(act));
         }
 
-        if(command.equals("getActivitiesOfUser")) {
+        if(command.equals("participate")) {
             if(token==null || token.isEmpty()|| id==null || id.isEmpty())return gson.toJson(icc);
             try {
                 operation.participate(token, id);
                 result.put("result", "Success");
             } catch (Exception ex) {
+                ex.printStackTrace();
                 result.put("result", "Failed");
             }
         }
@@ -130,6 +154,7 @@ public class Server {
                 operation.deleteActivity(token, id);
                 result.put("result", "Success");
             } catch (Exception ex) {
+                ex.printStackTrace();
                 result.put("result", "Failed");
             }
         }
@@ -141,6 +166,30 @@ public class Server {
                 result.put("result", "Success");
             } catch (Exception ex) {
                 result.put("result", "Failed");
+            }
+        }
+        
+        if(command.equals("getNotices")) {
+            result.put("result", "Success");
+            List<Notice> notices;
+            if(token==null || token.isEmpty()) {
+                result.put("result", "Failed");
+            } else {
+                Map<String,String> ntc=new HashMap<>();
+                Map<String,String> usr=new HashMap<>();
+                notices=operation.getNotices(token);
+                for(Notice notice:notices) {
+                    
+                    ntc.clear();
+                    ntc.put("id", notice.getId().toString());
+                    ntc.put("content", notice.getContent().getText());
+                    User author=notice.getAuthor();
+                    usr.clear();
+                    usr.put("id", author.getId().toString());
+                    usr.put("username", author.getUsername());
+                    ntc.put("author", new Gson().toJson(usr));
+                }
+                result.put("notices", new Gson().toJson(ntc));
             }
         }
         
@@ -173,12 +222,27 @@ public class Server {
         
         if(command.equals("getQuestions")) {
             result.put("result", "Success");
+            List<Question> questions;
             if(token==null || token.isEmpty()) {
-                result.put("id", new Gson().toJson(operation.getQuestions()));
+                questions=operation.getQuestions();
             } else {
-                result.put("result", "Failed");
+                questions=operation.getQuestions(token);
             }
+            Map<String,String> qst=new HashMap<>();
+            Map<String,String> usr=new HashMap<>();
+            for(Question question:questions) {
+                qst.clear();
+                qst.put("id", question.getId().toString());
+                qst.put("content", question.getContent().getText());
+                User author=question.getAuthor();
+                usr.clear();
+                usr.put("id", author.getId().toString());
+                usr.put("username", author.getUsername());
+                qst.put("author", new Gson().toJson(usr));
+            }
+            result.put("notices", new Gson().toJson(qst));
         }
+        
         
         if(command.equals("updateQuestion")) {
             if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())return gson.toJson(icc);

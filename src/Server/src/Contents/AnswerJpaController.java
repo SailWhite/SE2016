@@ -134,10 +134,6 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
-    public List<Answer> findAnswerOf(Question question) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public List<Question> findAnswersByQuestion(Question question) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

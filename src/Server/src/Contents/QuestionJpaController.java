@@ -6,6 +6,7 @@
 package Contents;
 
 import Contents.exceptions.NonexistentEntityException;
+import Core.User;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -135,6 +136,10 @@ public class QuestionJpaController implements Serializable {
     }
 
     public void edit(Answer answer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Question> findQuestionsByUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
