@@ -98,9 +98,9 @@ public class Server {
         if(command.equals("getActivities")) {
             result.put("result", "Success");
             if(token==null || token.isEmpty()) {
-                result.put("id", new Gson().toJson(operation.getActivities()));
+                result.put("activities", new Gson().toJson(operation.getActivities()));
             } else {
-                result.put("id", new Gson().toJson(operation.getActivities(token)));
+                result.put("activities", new Gson().toJson(operation.getActivities(token)));
             }
         }
 
@@ -210,7 +210,7 @@ public class Server {
         if(command.equals("getAnswers")) {
             result.put("result", "Success");
             if(token==null || token.isEmpty() || id==null || id.isEmpty()) {
-                result.put("id", new Gson().toJson(operation.getAnswers(id)));
+                result.put("answers", new Gson().toJson(operation.getAnswers(id)));
             } else {
                 result.put("result", "Failed");
             }
