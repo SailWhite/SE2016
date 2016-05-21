@@ -91,6 +91,30 @@ var Activities = Vue.extend({
     }
 })
 
+var CreateActivity = Vue.extend({
+    template: '#create-activity-template',
+    data: function () {
+        return {
+            name: null,
+            description: null,
+            schedule: null,
+        }
+    },
+    methods: {
+        create_activity: function () {
+            activity_data = {
+                activity: this.$data
+            }
+            this.$http.post(API_BASE_URL + '/activities/create',
+                            activity_data,
+                            function (response) {
+                                // TODO: Complete this success function
+                                console.log(response)
+                            })
+        }
+    }
+})
+
 var Notifications = Vue.extend({
     template: '#notifications-template'
 })
@@ -201,6 +225,9 @@ router.map({
     },
     '/signup': {
         component: Signup
+    },
+    '/activities/create': {
+        component: CreateActivity
     },
     '/activities': {
         component: Activities
