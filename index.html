@@ -120,18 +120,26 @@
         </template>
 
         <template id="single-question-template">
-            <h2>{{ question.title }}</h2>
-            <p>
-                {{ question.content }}
-            </p>
-            <button v-link="{ path: '/questions/' + question.id + '/answer' }">Answer this question</button>
-            <ul>
-                <li v-for="answer in question.answers">
-                    <p>
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ question.title }}
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.content }}
+
+                    </div>
+                </div>
+                <hr>
+                <div class="panel panel-default" v-for="answer in question.answers">
+                    <div class="panel-body">
                         {{ answer.content }}
-                    </p>
-                </li>
-            </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="{ path: '/questions/' + question.id + '/answer' }">Answer this question</button>
         </template>
 
         <template id="question-create-template">
