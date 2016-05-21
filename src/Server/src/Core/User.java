@@ -76,7 +76,7 @@ public class User implements Serializable {
     }
 
     boolean ckeckPwd(String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return password.equals(this.password);
     }
 
     void participate(Activity activity) {
@@ -84,11 +84,11 @@ public class User implements Serializable {
     }
 
     public Object getToken() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.token;
     }
 
     void setToken(String randomString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        token=randomString;
     }
     
 }

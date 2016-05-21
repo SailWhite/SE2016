@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * @author sailw
  */
 @Entity
-@Table(name="PUActivity")
+@Table(name="JPAActivity")
 public class Activity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,19 +36,15 @@ public class Activity implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST})     
     @JoinTable(name="participate",    
             joinColumns={        @JoinColumn(name="aid",referencedColumnName="id")    },    
-            inverseJoinColumns={         @JoinColumn(name="uis",referencedColumnName="id")    })     
+            inverseJoinColumns={         @JoinColumn(name="uid",referencedColumnName="id")    })     
     protected Set<User> users=new HashSet<>();
 
     public Activity() {
     }
 
-    Activity(Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Activity(Content content) {
+        this.content = content;
     }
-
-    /*public Activity(Long contentid) {
-        this.contentid = contentid;
-    }*/
     
     public Long getId() {
         return id;
@@ -83,15 +79,15 @@ public class Activity implements Serializable {
         return "Core.Activity[ id=" + id + " ]";
     }
 
-    boolean isAuth(User user) {
+    public boolean isAuth(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void participated(User user) {
+    public void participated(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void setContent(String string) {
+    public void setContent(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

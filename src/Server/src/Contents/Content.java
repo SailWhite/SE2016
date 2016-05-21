@@ -39,7 +39,8 @@ public class Content implements Serializable {
     
 
     public Content(User user, String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.user = user;
+        this.text = string;
     }
 
     public Long getId() {

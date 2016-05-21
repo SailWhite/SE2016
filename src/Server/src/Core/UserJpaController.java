@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -149,11 +150,19 @@ public class UserJpaController implements Serializable {
     }
 
     User findUser(String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        TypedQuery query=em.createQuery("SELECT u FROM User u where u.username='"+userName+"'", User.class);
+        List<User> user = query.getResultList();
+        if (user.isEmpty()) return null;
+        return user.get(0);
     }
 
     User findUserByToken(String token) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        TypedQuery query=em.createQuery("SELECT u FROM User u where u.token='"+token+"'", User.class);
+        List<User> user = query.getResultList();
+        if (user.isEmpty()) return null;
+        return user.get(0);
     }
     
 }

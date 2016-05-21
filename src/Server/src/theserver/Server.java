@@ -47,7 +47,15 @@ public class Server {
         JsonObject  jsonObj = new JsonObject();
         Gson gson = new Gson();
         //ujc.destroy(user.getId());*/
-        System.out.println(process("{\"command\":\"test\",\"user\":\"xxx\"}"));
+        Gson gson = new Gson();
+        Map<String, String> tokenMap=new HashMap<>();
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"sss\"}"));
+        String tokenJson=process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"sss\"}");
+        System.out.println(tokenJson);
+        tokenMap=gson.fromJson(tokenJson, tokenMap.getClass());
+        String token=tokenMap.get("token");
+        System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
+        
     }
     
     public static String process(String cmd) {
