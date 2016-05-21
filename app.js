@@ -76,7 +76,19 @@ var Signup = Vue.extend({
 })
 
 var Activities = Vue.extend({
-    template: '#activities-template'
+    template: '#activities-template',
+    data: function () {
+        return {
+            activities: []
+        }
+    },
+    ready: function () {
+        this.$http.get(API_BASE_URL + '/activities',
+                       function (response) {
+                           console.log(response)
+                           this.activities = response["activities"]
+                       })
+    }
 })
 
 var Notifications = Vue.extend({

@@ -96,6 +96,19 @@
 
         <template id="activities-template">
             <h2>Activities</h2>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="activity in activities">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a v-link="{ path: '/activities/' + activity.id }">{{ activity.name }}</a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ activity.description }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="'/activities/create'">Create Activity</button>
         </template>
 
         <template id="notifications-template">
