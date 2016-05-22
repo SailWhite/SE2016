@@ -216,10 +216,6 @@ var AnswerQuestion = Vue.extend({
     }
 })
 
-var Answers = Vue.extend({
-    template: '#answers-template'
-})
-
 var App = Vue.extend({
     data: function () {
         return {
@@ -257,9 +253,6 @@ router.map({
     },
     '/questions/:question_id/answer': {
         component: AnswerQuestion
-    },
-    '/answers': {
-        component: Answers
     }
 })
 
