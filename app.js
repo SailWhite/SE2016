@@ -135,7 +135,14 @@ var Notifications = Vue.extend({
         }
     },
     ready: function () {
+        get_notices_data = {
+            json: {
+                command: "getNotice",
+                token: token
+            }
+        }
         this.$http.get(API_BASE_URL,
+                       get_notices_data,
                        function (response) {
                            this.notices = response["notices"]
                        })
