@@ -197,14 +197,18 @@ var QuestionCreate = Vue.extend({
     methods: {
         create_question: function() {
             question_data = {
-                question: this.$data
+                json: {
+                    command: "addQuestion",
+                    token: token,
+                    content: this.content
+                }
             }
             this.$http.get(API_BASE_URL,
-                            question_data,
-                            function (response) {
-                                console.log(response)
-                                router.go('/questions/' + response["question"]["id"])
-                            })
+                           question_data,
+                           function (response) {
+                               console.log(response)
+                               router.go('/questions/' + response["question"]["id"])
+                           })
         }
     }
 })
