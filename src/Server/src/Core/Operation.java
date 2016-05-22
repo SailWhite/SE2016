@@ -189,8 +189,8 @@ public class Operation {
         return answer;
     }
     
-    public List<Question> getAnswers(String id) {
-        Question question=questionJpaController.findQuestion(Long.parseLong(id));
+    public List<Answer> getAnswers(String id) {
+        Question question = questionJpaController.findQuestion(Long.parseLong(id));
         return answerJpaController.findAnswersByQuestion(question);
     }
     

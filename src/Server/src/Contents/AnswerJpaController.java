@@ -6,12 +6,14 @@
 package Contents;
 
 import Contents.exceptions.NonexistentEntityException;
+import Core.Activity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -134,7 +136,16 @@ public class AnswerJpaController implements Serializable {
         }
     }
 
-    public List<Question> findAnswersByQuestion(Question question) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Answer> findAnswersByQuestion(Question question) {
+        EntityManager em = getEntityManager();
+        TypedQuery query = em.createQuery("SELECT s FROM Answer s where s.question = ?1", Answer.class);
+        query.setParameter(1, question);
+        List<Answer> answer = query.getResultList();
+        return answer;
     }
 }
+
+
+
+
+

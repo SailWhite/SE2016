@@ -59,9 +59,16 @@ public class Server {
         System.out.println(process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"5\"}"));
         // code below is added by Yuan Xuan
         //System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
+        // queries about "Question"
         System.out.println(process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"Is it working?\"}"));
         System.out.println(process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}"));
         System.out.println(process("{\"command\":\"updateQuestion\",\"token\":\""+token+"\",\"content\":\"Can it be updated?\",\"id\":\"8\"}"));
+        //System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
+        // queries about "Answer"
+        System.out.println(process("{\"command\":\"addAnswer\",\"token\":\""+token+"\",\"content\":\"Here My ANSWER!\",\"id\":\"8\"}"));
+        System.out.println(process("{\"command\":\"getAnswers\",\"token\":\""+token+"\",\"id\":\"8\"}"));
+        System.out.println(process("{\"command\":\"updateAnswer\",\"token\":\""+token+"\",\"content\":\"Here's My ANSWER!\",\"id\":\"11\"}"));
+        System.out.println(process("{\"command\":\"deleteAnswer\",\"token\":\""+token+"\",\"id\":\"11\"}"));
         System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
     }
     
@@ -268,7 +275,8 @@ public class Server {
         }
         
         if(command.equals("addAnswer")) {
-            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())
+                return gson.toJson(icc);
             Answer answer=operation.addAnswer(token, id, content);
             result.put("result", answer==null?"Failed":"Success");
             result.put("id", answer==null?"":answer.getId().toString());
@@ -276,15 +284,18 @@ public class Server {
         
         if(command.equals("getAnswers")) {
             result.put("result", "Success");
+            List<Answer> answers = null;
             if(token==null || token.isEmpty() || id==null || id.isEmpty()) {
                 result.put("answers", new Gson().toJson(operation.getAnswers(id)));
             } else {
-                result.put("result", "Failed");
+                answers = operation.getAnswers(id);
+                //result.put("result", "Failed");
             }
         }
         
         if(command.equals("updateAnswer")) {
-            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())
+                return gson.toJson(icc);
             try {
                 operation.updateAnswer(token, id, content);
                 result.put("result", "Success");
@@ -294,7 +305,8 @@ public class Server {
         }
         
         if(command.equals("deleteAnswer")) {
-            if(token==null || token.isEmpty()|| id==null || id.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| id==null || id.isEmpty())
+                return gson.toJson(icc);
             try {
                 operation.deleteAnswer(token, id);
                 result.put("result", "Success");

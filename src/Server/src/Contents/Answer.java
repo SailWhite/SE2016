@@ -7,6 +7,7 @@ package Contents;
 
 import Core.User;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,8 @@ public class Answer implements Serializable {
     }
 
     public Answer(Question question, Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.question = question;
+        this.content = content;
     }
 
     public Long getId() {
@@ -74,19 +76,24 @@ public class Answer implements Serializable {
     }
 
     public boolean isAuth(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Objects.equals(this.getContent().getAuthor().getId(), user.getId());
     }
 
     public void setContent(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     public Content getContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content;
     }
 
     public void setContent(Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.content = content;
     }
     
 }
+
+
+
+
