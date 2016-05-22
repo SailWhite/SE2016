@@ -7,6 +7,7 @@ package Contents;
 
 import Core.User;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,7 +73,7 @@ public class Question implements Serializable {
     }
 
     public boolean isAuth(User user) {
-        return this.content.getAuthor() == user;
+        return Objects.equals(this.content.getAuthor().getId(), user.getId());
     }
 
     public void setContent(String string) {

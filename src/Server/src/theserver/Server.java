@@ -61,6 +61,8 @@ public class Server {
         //System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
         System.out.println(process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"Is it working?\"}"));
         System.out.println(process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}"));
+        System.out.println(process("{\"command\":\"updateQuestion\",\"token\":\""+token+"\",\"content\":\"Can it be updated?\",\"id\":\"8\"}"));
+        System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
     }
     
     public static String process(String cmd) {
@@ -244,7 +246,8 @@ public class Server {
         
         
         if(command.equals("updateQuestion")) {
-            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty())
+                return gson.toJson(icc);
             try {
                 operation.updateQuestion(token, id, content);
                 result.put("result", "Success");
@@ -254,7 +257,8 @@ public class Server {
         }
         
         if(command.equals("deleteQuestion")) {
-            if(token==null || token.isEmpty()|| id==null || id.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| id==null || id.isEmpty())
+                return gson.toJson(icc);
             try {
                 operation.deleteQuestion(token, id);
                 result.put("result", "Success");

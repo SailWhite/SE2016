@@ -161,7 +161,8 @@ public class Operation {
     public boolean updateQuestion(String token, String id, String string) throws Exception {
         User user=userJpaController.findUserByToken(token);
         Question question =questionJpaController.findQuestion(Long.parseLong(id));
-        if(!question.isAuth(user))throw new Exception();
+        if(!question.isAuth(user))
+            throw new Exception();
         contentJpaController.destroy(question.getContent().getId());
         Content content=new Content(user, string);
         contentJpaController.create(content);
