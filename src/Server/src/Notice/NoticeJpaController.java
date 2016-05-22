@@ -6,6 +6,7 @@
 package Notice;
 
 import Contents.exceptions.NonexistentEntityException;
+import Core.Activity;
 import Core.User;
 import Notice.Notice;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -137,11 +139,12 @@ public class NoticeJpaController implements Serializable {
     }
 
     public List<Notice> findNoticeOfUID(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public List<Notice> findOnPushNotices() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     public List<Notice> findNoticesByUser(User user) {

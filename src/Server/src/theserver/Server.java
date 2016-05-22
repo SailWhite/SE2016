@@ -1,12 +1,5 @@
 package theserver;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import Contents.Answer;
 import Contents.Question;
 import Contents.exceptions.NonexistentEntityException;
@@ -64,7 +57,8 @@ public class Server {
         System.out.println(process("{\"command\":\"participate\",\"token\":\""+token+"\",\"id\":\"3\"}"));
         System.out.println(process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is not a god.\",\"id\":\"5\"}"));
         System.out.println(process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"5\"}"));
-        
+        // code below is added by Yuan Xuan
+        //System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
     }
     
     public static String process(String cmd) {
@@ -160,11 +154,13 @@ public class Server {
         }
         
         if(command.equals("addNotice")) {
-            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty() || time==null || time.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty() || time==null || time.isEmpty())
+                return gson.toJson(icc);
             try {
                 operation.addNotice(token, id, content, time);
                 result.put("result", "Success");
             } catch (Exception ex) {
+                ex.printStackTrace();
                 result.put("result", "Failed");
             }
         }
