@@ -33,12 +33,13 @@ public class Notice implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    boolean isPushed;
     @OneToOne
-    private final Content content;
+    private  Content content;
     @ManyToOne
     private Activity activity;
     @Temporal(TemporalType.DATE)
-    private final Date push_time;
+    private  Date push_time;
 
     public Notice() {
         content=null;
@@ -49,6 +50,7 @@ public class Notice implements Serializable {
     public Notice(Activity activity, Content content, Date push_time) {
 	this.content = content;
 	this.push_time = push_time;
+        this.isPushed=false;
     }
 	
 	public Long getId() {
@@ -85,23 +87,26 @@ public class Notice implements Serializable {
     }
 
     public void setPushtime(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.push_time=date;
     }
 
     public void setContent(Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.content=content;
     }
 
     public boolean isAuth(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content.getAuthor().equals(user);
     }
 
     public User getAuthor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content.getAuthor();
     }
 
     public Content getContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return content;
     }
-    
+
+    public void push() {
+        this.isPushed=true;
+    }
 }

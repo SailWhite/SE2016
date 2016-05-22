@@ -10,6 +10,7 @@ import Core.Activity;
 import Core.User;
 import Notice.Notice;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -137,18 +138,13 @@ public class NoticeJpaController implements Serializable {
             em.close();
         }
     }
-
-    public List<Notice> findNoticeOfUID(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List<Notice> findOnPushNotices() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<Notice> findNoticesByUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
+    public List<Notice> findNoticesOnPush(User user) {
+        EntityManager em = getEntityManager();
+        TypedQuery query=em.createQuery("SELECT n FROM Notice n where (not n.isPushed) and (n.push_time<?1) and (n.content in (select c FROM Content c where c.author=?2))", Activity.class);
+        query.setParameter(1,new Date());
+        query.setParameter(2,user);
+        List<Notice> notices = query.getResultList();
+        return notices;
+    }
 }

@@ -63,18 +63,21 @@ public class Server extends HttpServlet{
         System.out.println(process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is not a god.\",\"id\":\"5\"}"));
         System.out.println(process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"5\"}"));
         // code below is added by Yuan Xuan
-        //System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
         // queries about "Question"
         System.out.println(process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"Is it working?\"}"));
         System.out.println(process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}"));
         System.out.println(process("{\"command\":\"updateQuestion\",\"token\":\""+token+"\",\"content\":\"Can it be updated?\",\"id\":\"8\"}"));
-        //System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
         // queries about "Answer"
         System.out.println(process("{\"command\":\"addAnswer\",\"token\":\""+token+"\",\"content\":\"Here My ANSWER!\",\"id\":\"8\"}"));
         System.out.println(process("{\"command\":\"getAnswers\",\"token\":\""+token+"\",\"id\":\"8\"}"));
         System.out.println(process("{\"command\":\"updateAnswer\",\"token\":\""+token+"\",\"content\":\"Here's My ANSWER!\",\"id\":\"11\"}"));
         System.out.println(process("{\"command\":\"deleteAnswer\",\"token\":\""+token+"\",\"id\":\"11\"}"));
         System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
+        
+        System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
+        System.out.println(process("{\"command\":\"updateNotice\",\"token\":\""+token+"\",\"content\":\"bSampleNotice\",\"time\":\"2016-05-21 14:23:23\",\"id\":\"14\"}"));
+        System.out.println(process("{\"command\":\"getNotices\",\"token\":\""+token+"\"}"));
+        System.out.println(process("{\"command\":\"deleteNotice\",\"token\":\""+token+"\",\"id\":\"14\"}"));
     }
     
     public void doGet(HttpServletRequest request,
@@ -82,6 +85,9 @@ public class Server extends HttpServlet{
         throws IOException, ServletException
     {
         String json = request.getParameter("json");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         response.getWriter().print(process(json));
     }
     
@@ -187,9 +193,11 @@ public class Server extends HttpServlet{
         if(command.equals("addNotice")) {
             if(token==null || token.isEmpty()|| content==null || content.isEmpty() || id==null || id.isEmpty() || time==null || time.isEmpty())
                 return gson.toJson(icc);
+            Notice notice;
             try {
-                operation.addNotice(token, id, content, time);
-                result.put("result", "Success");
+                notice=operation.addNotice(token, id, content, time);
+                result.put("result", notice==null?"Failed":"Success");
+                result.put("id", notice==null?"":notice.getId().toString());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 result.put("result", "Failed");
@@ -204,9 +212,8 @@ public class Server extends HttpServlet{
             } else {
                 Map<String,String> ntc=new HashMap<>();
                 Map<String,String> usr=new HashMap<>();
-                notices=operation.getNotices(token);
+                notices=operation.getPushNotices(token);
                 for(Notice notice:notices) {
-                    
                     ntc.clear();
                     ntc.put("id", notice.getId().toString());
                     ntc.put("content", notice.getContent().getText());
@@ -268,7 +275,7 @@ public class Server extends HttpServlet{
                 usr.put("username", author.getUsername());
                 qst.put("author", new Gson().toJson(usr));
             }
-            result.put("notices", new Gson().toJson(qst));
+            result.put("questions", new Gson().toJson(qst));
         }
         
         

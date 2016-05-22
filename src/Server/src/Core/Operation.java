@@ -213,11 +213,18 @@ public class Operation {
         answerJpaController.destroy(answer.getId());
         return true;
     }
-
-    public List<Notice> getNotices(String token) {
+    
+    public List<Notice> getPushNotices(String token) {
         User user=userJpaController.findUserByToken(token);
-        return noticeJpaController.findNoticesByUser(user);
+        List<Notice> notices=noticeJpaController.findNoticesOnPush(user);
+        for(Notice notice:notices) {
+            notice.push();
+            try {
+                noticeJpaController.edit(notice);
+            } catch (Exception ex) {
+                Logger.getLogger(Operation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return notices;
     }
-    
-    
 }
