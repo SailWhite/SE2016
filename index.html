@@ -144,6 +144,15 @@
 
         <template id="notifications-template">
             <h2>Notifications</h2>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="notice in notices">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ notice.content }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
         </template>
 
         <template id="questions-template">

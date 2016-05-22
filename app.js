@@ -116,7 +116,18 @@ var CreateActivity = Vue.extend({
 })
 
 var Notifications = Vue.extend({
-    template: '#notifications-template'
+    template: '#notifications-template',
+    data: function () {
+        return {
+            notices: null
+        }
+    },
+    ready: function () {
+        this.$http.get(API_BASE_URL + '/notices',
+                       function (response) {
+                           this.notices = response["notices"]
+                       })
+    }
 })
 
 var Questions = Vue.extend({
