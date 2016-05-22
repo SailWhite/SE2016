@@ -87,7 +87,13 @@ var Activities = Vue.extend({
         }
     },
     ready: function () {
+        get_activities_data = {
+            json: {
+                command: "getActivities"
+            }
+        }
         this.$http.get(API_BASE_URL,
+                       get_activities_data,
                        function (response) {
                            console.log(response)
                            this.activities = response["activities"]
