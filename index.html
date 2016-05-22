@@ -1,0 +1,243 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div id="app">
+            <div class="navbar navbar-default">
+                <a class="navbar-brand" v-link="'/'">Study Assistent</a>
+
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a v-link="{ path: '/activities' }">Activities</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/notifications' }">Notifications</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/questions' }">Questions</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a v-link="{ path: '/login' }">Login</a>
+                    </li>
+                    <li>
+                        <a v-link="{ path: '/signup' }">Signup</a>
+                    </li>
+                </ul>
+            </div>
+
+            <router-view></router-view>
+        </div>
+
+        <template id="welcome-template">
+            <div class="jumbotron">
+                <h1>Welcome to Student Assistant System</h1>
+                <p>Please go to Activities page to check out your Activities.</p>
+                <p><a class="btn btn-primary btn-lg" role="button" v-link="'/activities'">Activities</a></p>
+            </div>
+        </template>
+
+        <template id="login-template">
+            <h2>Login</h2>
+            <div class="col-md-5">
+                <form class="form-horizontal" v-on:submit.prevent="submit">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Username:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" v-model="username" type="text" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Password:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" v-model="password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-warning" v-on:click.prevent="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="signup-template">
+            <h2>Signup</h2>
+            <div class="col-md-5">
+                <form class="form-horizontal" v-on:submit.prevent="submit">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Username:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" v-model="username" type="username" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Password:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" v-model="password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-warning" v-on:click.prevent="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="activities-template">
+            <h2>Activities</h2>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="activity in activities">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a v-link="{ path: '/activities/' + activity.id }">{{ activity.name }}</a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ activity.description }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="'/activities/create'">Create Activity</button>
+        </template>
+
+        <template id="create-activity-template">
+            <h2>Create Activity</h2>
+            <div class="col-md-5">
+                <form class="form-horizontal" v-on:submit.prevent="create_activity">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Content:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" v-model="content"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2">
+                            <button class="btn btn-primary" v-on:click.prevent="create_activity">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="notifications-template">
+            <h2>Notifications</h2>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="notice in notices">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ notice.content }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="questions-template">
+            <h2>Questions</h2>
+            <div class="col-md-5">
+                <div class="panel panel-info" v-for="question in questions">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a v-link="{ path: '/questions/' + question.id }">{{ question.content }}</a>
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.author.username }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="{ path: '/questions/create' }">Create Question</button>
+        </template>
+
+        <template id="single-question-template">
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ question.title }}
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.content }}
+
+                    </div>
+                </div>
+                <hr>
+                <div class="panel panel-default" v-for="answer in question.answers">
+                    <div class="panel-body">
+                        {{ answer.content }}
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-link="{ path: '/questions/' + question.id + '/answer' }">Answer this question</button>
+        </template>
+
+        <template id="question-create-template">
+            <h2>Create Question</h2>
+            <div class="col-md-5">
+                <form class="form-horizontal" v-on:submit.prevent="create_question">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Question:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" v-model="content" type="text" placeholder="Question">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-primary" v-on:click.prevent="create_question">Submit</button>
+                            <button class="btn btn-warning" v-on:click.prevent="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="answer-question-template">
+            <div class="col-md-5">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ question.title }}
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        {{ question.content }}
+
+                    </div>
+                </div>
+                <hr>
+                <form class="form-horizontal" v-on:submit.prevent="create_answer">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="">Answer</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" v-model="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-primary" v-on:click.prevent="create_answer">Submit</button>
+                            <button class="btn btn-warning" v-on:click.prevent="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.10/vue-router.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js"></script>
+        <script src="./app.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-strap/1.0.9/vue-strap.min.js"></script> -->
+    </body>
+
+</html>
