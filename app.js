@@ -1,5 +1,9 @@
 var API_BASE_URL = 'http://localhost:3000'
 
+var Welcome = Vue.extend({
+    template: '#welcome-template'
+})
+
 var Login = Vue.extend({
     template: '#login-template',
     data: function () {
@@ -227,6 +231,9 @@ var App = Vue.extend({
 var router = new VueRouter()
 
 router.map({
+    '/': {
+        component: Welcome
+    },
     '/login': {
         component: Login
     },

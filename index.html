@@ -33,6 +33,14 @@
             <router-view></router-view>
         </div>
 
+        <template id="welcome-template">
+            <div class="jumbotron">
+                <h1>Welcome to Student Assistant System</h1>
+                <p>Please go to Activities page to check out your Activities.</p>
+                <p><a class="btn btn-primary btn-lg" role="button" v-link="'/activities'">Activities</a></p>
+            </div>
+        </template>
+
         <template id="login-template">
             <h2>Login</h2>
             <div class="col-md-5">
