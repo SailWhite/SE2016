@@ -48,7 +48,6 @@ var Signup = Vue.extend({
     data: function () {
         data = {
             username: "",
-            email: "",
             password: "",
         }
         return data
@@ -56,26 +55,25 @@ var Signup = Vue.extend({
     methods: {
         submit: function () {
             signup_data = {
-                user:{
+                json: {
+                    command: "regist",
                     username: this.username,
-                    email: this.email,
                     password: this.password
                 }
             }
             this.$http.get(API_BASE_URL,
-                            signup_data).then(
-                                function (response) {
-                                    alert("Signup Success")
-                                    router.go("/login")
-                                    console.log(response)
-                                },
-                                function (response) {
-                                    console.log(response)
-                                })
+                           signup_data).then(
+                               function (response) {
+                                   alert("Signup Success")
+                                   router.go("/login")
+                                   console.log(response)
+                               },
+                               function (response) {
+                                   console.log(response)
+                               })
         },
         reset: function () {
             this.username = ""
-            this.email = ""
             this.password = ""
         }
     }
