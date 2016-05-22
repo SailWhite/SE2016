@@ -8,6 +8,7 @@ import Core.Operation;
 import Core.User;
 import Notice.Notice;
 import com.google.gson.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,12 +17,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author sailw
  */
-public class Server {
+public class Server extends HttpServlet{
 
     /**
      * @param args the command line arguments
@@ -70,6 +75,21 @@ public class Server {
         System.out.println(process("{\"command\":\"updateAnswer\",\"token\":\""+token+"\",\"content\":\"Here's My ANSWER!\",\"id\":\"11\"}"));
         System.out.println(process("{\"command\":\"deleteAnswer\",\"token\":\""+token+"\",\"id\":\"11\"}"));
         System.out.println(process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"8\"}"));
+    }
+    
+    public void doGet(HttpServletRequest request,
+                      HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        String json = request.getParameter("json");
+        response.getWriter().print(process(json));
+    }
+    
+    public void doPost(HttpServletRequest request,
+                      HttpServletResponse response)
+        throws IOException, ServletException
+    {
+        doGet(request, response);
     }
     
     public static String process(String cmd) {
