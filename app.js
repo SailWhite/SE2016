@@ -1,4 +1,5 @@
 var API_BASE_URL = 'http://sailwhite.com/server'
+var token = null
 
 var Welcome = Vue.extend({
     template: '#welcome-template'
@@ -8,34 +9,35 @@ var Login = Vue.extend({
     template: '#login-template',
     data: function () {
         data = {
-            email: "",
-            password: "",
+            username: "",
+            password: ""
         }
         return data
     },
     methods: {
         submit: function () {
             login_data = {
-                user:{
-                    email: this.email,
+                json: {
+                    command: "login",
+                    username: this.username,
                     password: this.password
                 }
             }
             console.log(this.user)
-                            login_data).then(
-                                function (response) {
-                                    alert("Login Success")
-                                    this.$root.user = response["data"].user
-                                    router.go("/")
-                                    console.log(response)
-                                },
-                                function (response) {
-                                    console.log(response)
-                                })
             this.$http.get(API_BASE_URL,
+                           login_data).then(
+                               function (response) {
+                                   alert("Login Success")
+                                   token = response["token"]
+                                   router.go("/")
+                                   console.log(response)
+                               },
+                               function (response) {
+                                   console.log(response)
+                               })
         },
         reset: function () {
-            this.email = ""
+            this.username = ""
             this.password = ""
         }
     }
@@ -221,11 +223,6 @@ var AnswerQuestion = Vue.extend({
 })
 
 var App = Vue.extend({
-    data: function () {
-        return {
-            user: null
-        }
-    }
 })
 
 var router = new VueRouter()
