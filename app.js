@@ -158,7 +158,13 @@ var Questions = Vue.extend({
         return data
     },
     ready: function () {
+        get_questions_data = {
+            json: {
+                command: "getQuestions"
+            }
+        }
         this.$http.get(API_BASE_URL,
+                       get_questions_data,
                        function (response) {
                            this.questions = response["questions"]
                        })

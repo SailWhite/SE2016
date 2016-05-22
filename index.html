@@ -148,11 +148,11 @@
                 <div class="panel panel-info" v-for="question in questions">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a v-link="{ path: '/questions/' + question.id }">{{ question.title }}</a>
+                            <a v-link="{ path: '/questions/' + question.id }">{{ question.content }}</a>
                         </h4>
                     </div>
                     <div class="panel-body">
-                        {{ question.content }}
+                        {{ question.author.username }}
                     </div>
                 </div>
             </div>
