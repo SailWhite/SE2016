@@ -105,22 +105,24 @@ var CreateActivity = Vue.extend({
     template: '#create-activity-template',
     data: function () {
         return {
-            name: null,
-            description: null,
-            schedule: null,
+            content: null
         }
     },
     methods: {
         create_activity: function () {
             activity_data = {
-                activity: this.$data
+                json: {
+                    command: "addActivity",
+                    token: token,
+                    content: this.content
+                }
             }
             this.$http.get(API_BASE_URL,
-                            activity_data,
-                            function (response) {
-                                // TODO: Complete this success function
-                                console.log(response)
-                            })
+                           activity_data,
+                           function (response) {
+                               router.go("/activities")
+                               console.log(response)
+                           })
         }
     }
 })
