@@ -1,4 +1,4 @@
-var API_BASE_URL = 'http://localhost:3000'
+var API_BASE_URL = 'http://sailwhite.com/server'
 
 var Welcome = Vue.extend({
     template: '#welcome-template'
@@ -22,7 +22,6 @@ var Login = Vue.extend({
                 }
             }
             console.log(this.user)
-            this.$http.get(API_BASE_URL + '/users',
                             login_data).then(
                                 function (response) {
                                     alert("Login Success")
@@ -33,6 +32,7 @@ var Login = Vue.extend({
                                 function (response) {
                                     console.log(response)
                                 })
+            this.$http.get(API_BASE_URL,
         },
         reset: function () {
             this.email = ""
@@ -60,7 +60,7 @@ var Signup = Vue.extend({
                     password: this.password
                 }
             }
-            this.$http.post(API_BASE_URL + '/users',
+            this.$http.get(API_BASE_URL,
                             signup_data).then(
                                 function (response) {
                                     alert("Signup Success")
@@ -87,7 +87,7 @@ var Activities = Vue.extend({
         }
     },
     ready: function () {
-        this.$http.get(API_BASE_URL + '/activities',
+        this.$http.get(API_BASE_URL,
                        function (response) {
                            console.log(response)
                            this.activities = response["activities"]
@@ -109,7 +109,7 @@ var CreateActivity = Vue.extend({
             activity_data = {
                 activity: this.$data
             }
-            this.$http.post(API_BASE_URL + '/activities/create',
+            this.$http.get(API_BASE_URL,
                             activity_data,
                             function (response) {
                                 // TODO: Complete this success function
@@ -127,7 +127,7 @@ var Notifications = Vue.extend({
         }
     },
     ready: function () {
-        this.$http.get(API_BASE_URL + '/notices',
+        this.$http.get(API_BASE_URL,
                        function (response) {
                            this.notices = response["notices"]
                        })
@@ -143,7 +143,7 @@ var Questions = Vue.extend({
         return data
     },
     ready: function () {
-        this.$http.get(API_BASE_URL + '/questions',
+        this.$http.get(API_BASE_URL,
                        function (response) {
                            this.questions = response["questions"]
                        })
@@ -158,7 +158,7 @@ var SingleQuestion = Vue.extend({
         }
     },
     ready: function () {
-        this.$http.get(API_BASE_URL + '/questions/' + this.$route.params["question_id"],
+        this.$http.get(API_BASE_URL,
                        function (response) {
                            this.question = response["question"]
                        })
@@ -178,7 +178,7 @@ var QuestionCreate = Vue.extend({
             question_data = {
                 question: this.$data
             }
-            this.$http.post(API_BASE_URL + '/questions',
+            this.$http.get(API_BASE_URL,
                             question_data,
                             function (response) {
                                 console.log(response)
@@ -197,7 +197,7 @@ var AnswerQuestion = Vue.extend({
         }
     },
     ready: function () {
-        this.$http.get(API_BASE_URL + '/questions/' + this.$route.params["question_id"],
+        this.$http.get(API_BASE_URL,
                        function (response) {
                            this.question = response["question"]
                        })
@@ -210,7 +210,7 @@ var AnswerQuestion = Vue.extend({
                     content: this.content
                 }
             }
-            this.$http.post(API_BASE_URL + '/answers',
+            this.$http.get(API_BASE_URL,
                             answer_data,
                             function (response) {
                                 console.log(response)
