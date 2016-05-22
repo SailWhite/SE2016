@@ -6,6 +6,7 @@
 package Contents;
 
 import Contents.exceptions.NonexistentEntityException;
+import Core.Activity;
 import Core.User;
 import java.io.Serializable;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -140,7 +142,15 @@ public class QuestionJpaController implements Serializable {
     }
 
     public List<Question> findQuestionsByUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        TypedQuery query = em.createQuery("SELECT q FROM Question q where q.content in (select c FROM Content c where c.author=?1)", Question.class);
+        query.setParameter(1,user);
+        List<Question> question = query.getResultList();
+        return question;
     }
     
 }
+
+
+
+

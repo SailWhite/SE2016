@@ -35,7 +35,7 @@ public class Question implements Serializable {
 
 
     public Question(Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.content = content;
     }
 
     public Long getId() {
@@ -72,23 +72,29 @@ public class Question implements Serializable {
     }
 
     public boolean isAuth(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content.getAuthor() == user;
     }
 
     public void setContent(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     public User getAuthor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content.getAuthor();
     }
 
     public Content getContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.content;
     }
 
     public void setContent(Content content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.content = content;
     }
     
 }
+
+
+
+
+

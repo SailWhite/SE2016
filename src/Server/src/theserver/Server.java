@@ -59,6 +59,8 @@ public class Server {
         System.out.println(process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"5\"}"));
         // code below is added by Yuan Xuan
         //System.out.println(process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"aSampleNotice\",\"time\":\"2016-05-25 14:23:23\",\"id\":\"3\"}"));
+        System.out.println(process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"Is it working?\"}"));
+        System.out.println(process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}"));
     }
     
     public static String process(String cmd) {
@@ -210,7 +212,8 @@ public class Server {
         }
         
         if(command.equals("addQuestion")) {
-            if(token==null || token.isEmpty()|| content==null || content.isEmpty())return gson.toJson(icc);
+            if(token==null || token.isEmpty()|| content==null || content.isEmpty())
+                return gson.toJson(icc);
             Question question=operation.addQuestion(token, content);
             result.put("result", question==null?"Failed":"Success");
             result.put("id", question==null?"":question.getId().toString());
