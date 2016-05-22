@@ -6,6 +6,7 @@
 package Core;
 
 import Contents.*;
+import static Contents.Answer_.question;
 import Contents.exceptions.NonexistentEntityException;
 import Notice.*;
 import static java.lang.Thread.sleep;
@@ -109,7 +110,9 @@ public class Operation {
         Activity activity =activityJpaController.findActivity(Long.parseLong(id));
         if(!activity.isAuth(user))throw new Exception();
         Content content=new Content(user, string);
+        contentJpaController.create(content);
         Notice notice=new Notice(activity, content, date);
+        
         noticeJpaController.create(notice);
         return notice;
     }
@@ -120,7 +123,10 @@ public class Operation {
         User user=userJpaController.findUserByToken(token);
         Notice notice=noticeJpaController.findNotice(Long.parseLong(id));
         if(!notice.isAuth(user))throw new Exception();
-        notice.setContent(string);
+        contentJpaController.destroy(notice.getContent().getId());
+        Content content=new Content(user, string);
+        contentJpaController.create(content);
+        notice.setContent(content);
         notice.setPushtime(date);
         noticeJpaController.edit(notice);
         return notice;
@@ -137,6 +143,7 @@ public class Operation {
     public Question addQuestion(String token, String string) {
         User user=userJpaController.findUserByToken(token);
         Content content=new Content(user, string);
+        contentJpaController.create(content);
         Question question =new Question(content);
         questionJpaController.create(question);
         return question;
@@ -155,7 +162,10 @@ public class Operation {
         User user=userJpaController.findUserByToken(token);
         Question question =questionJpaController.findQuestion(Long.parseLong(id));
         if(!question.isAuth(user))throw new Exception();
-        question.setContent(string);
+        contentJpaController.destroy(question.getContent().getId());
+        Content content=new Content(user, string);
+        contentJpaController.create(content);
+        question.setContent(content);
         questionJpaController.edit(question);
         return true;
     }
@@ -171,6 +181,7 @@ public class Operation {
      public Answer addAnswer(String token, String id, String string) {
         User user=userJpaController.findUserByToken(token);
         Content content=new Content(user, string);
+        contentJpaController.create(content);
         Question question=questionJpaController.findQuestion(Long.parseLong(id));
         Answer answer =new Answer(question, content);
         answerJpaController.create(answer);
@@ -186,7 +197,10 @@ public class Operation {
         User user=userJpaController.findUserByToken(token);
         Answer answer =answerJpaController.findAnswer(Long.parseLong(id));
         if(!answer.isAuth(user))throw new Exception();
-        answer.setContent(string);
+        contentJpaController.destroy(answer.getContent().getId());
+        Content content=new Content(user, string);
+        contentJpaController.create(content);
+        answer.setContent(content);
         answerJpaController.edit(answer);
         return true;
     }
