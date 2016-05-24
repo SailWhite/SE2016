@@ -83,7 +83,7 @@ public class User implements Serializable {
         actSet.add(activity);
     }
 
-    public Object getToken() {
+    public String getToken() {
         return this.token;
     }
 

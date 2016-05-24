@@ -25,11 +25,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
-
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 /**
  *
- * @author sailw
+ * @author sailw,gosh
  */
+@FixMethodOrder(MethodSorters.DEFAULT)
 public class OperationTest {
     private Operation operation;
     private final UserJpaController userJpaController;
@@ -38,6 +40,8 @@ public class OperationTest {
     private final ContentJpaController contentJpaController;
     private final QuestionJpaController questionJpaController;
     private final NoticeJpaController noticeJpaController;
+    private Long uid;
+    private String token;
     
     public OperationTest() {
         EntityManagerFactory emf=javax.persistence.Persistence.createEntityManagerFactory("TheServerPU");
@@ -59,36 +63,55 @@ public class OperationTest {
     }
 
     /**
-     * Test of login method, of class Operation.
-     */
-    @Test
-    public void testLogin() {
-        System.out.println("login");
-        String userName = "";
-        String password = "";
-        Operation instance = null;
-        User expResult = null;
-        User result = instance.login(userName, password);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of regist method, of class Operation.
      */
     @Test
     public void testRegist() {
         System.out.println("regist");
-        String userName = "";
-        String password = "";
-        Operation instance = null;
-        User expResult = null;
-        User result = instance.regist(userName, password);
-        assertEquals(expResult, result);
+        String userName = "gosh";
+        String password = "abc";
+        Operation instance = this.operation;
+        User user = instance.regist(userName, password);
+        uid= user.getId();
+        User result = userJpaController.findUser(uid);
+        assertNotNull("Test Regist Error",result);
+        result = userJpaController.findUser(userName);
+        assertNotNull("Test Regist Error",result);
+        
+        user = instance.regist(userName, password);
+        assertNull("Test Regist Error",user);
+       }
+    
+    
+    /**
+     * Test of login method, of class Operation.
+     */
+    @Test
+    public void testLogin() {
+        System.out.println("login");
+        String userName = "gosh";
+        String password = "abc";
+        Operation instance = this.operation;
+        User result = instance.login(userName, password);
+        assertNotNull("Test Login Error",result);
+       
+        this.token=result.getToken();
+        result = userJpaController.findUserByToken(this.token);
+        assertNotNull("Test Login Error",result);
+        
+        password = "abd";
+        result = instance.login(userName, password);
+        assertNull("Test Login Error",result);
+        
+        userName = "a";
+        result = instance.login(userName, password);
+        assertNull("Test Login Error",result);
+        
+//assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
+
 
     /**
      * Test of addActivity method, of class Operation.
