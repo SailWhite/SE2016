@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 //import java.sql.Date;
@@ -30,6 +32,7 @@ public class Content implements Serializable {
     private Long id;
     private String text;
     @ManyToOne
+    @JoinColumn(nullable=false)
     private User author;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date gen_time;

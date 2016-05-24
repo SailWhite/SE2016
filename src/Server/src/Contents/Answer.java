@@ -8,10 +8,12 @@ package Contents;
 import Core.User;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -29,9 +31,11 @@ public class Answer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @JoinColumn(nullable=false)
     @ManyToOne
     private Question question;
     @OneToOne
+    @JoinColumn(nullable=false)
     private Content content;
 
     public Answer() {

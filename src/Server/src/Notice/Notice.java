@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -33,12 +34,16 @@ public class Notice implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable=false)
     boolean isPushed;
     @OneToOne
+    @JoinColumn(nullable=false)
     private  Content content;
     @ManyToOne
+    @JoinColumn(nullable=false)
     private Activity activity;
     @Temporal(TemporalType.DATE)
+    @Column(nullable=false)
     private  Date push_time;
 
     public Notice() {
