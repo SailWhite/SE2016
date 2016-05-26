@@ -33,21 +33,23 @@ public class OperationTest {
     static private Long uid;
     static private String token;
     static private String anotherToken;
-    static private String fakeToken="hahahahha";
+    static private String fakeToken = "hahahahha";
     static private Long aid;
     static private Long fakeAid = Long.valueOf(12345679);
     static private Long nid;
     static private Long fakeNid = Long.valueOf(12345679);
+    static private Long qid;
+    static private Long fakeQid = Long.valueOf(12345679);
     
     public OperationTest() {
-        EntityManagerFactory emf=javax.persistence.Persistence.createEntityManagerFactory("TheServerPU");
-        operation=new Operation(emf);
-        userJpaController=new UserJpaController(emf);
-        activityJpaController=new ActivityJpaController(emf);
-        answerJpaController=new AnswerJpaController(emf);
-        contentJpaController=new ContentJpaController(emf);
-        questionJpaController=new QuestionJpaController(emf);
-        noticeJpaController=new NoticeJpaController(emf);
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("TheServerPU");
+        operation = new Operation(emf);
+        userJpaController = new UserJpaController(emf);
+        activityJpaController = new ActivityJpaController(emf);
+        answerJpaController = new AnswerJpaController(emf);
+        contentJpaController = new ContentJpaController(emf);
+        questionJpaController = new QuestionJpaController(emf);
+        noticeJpaController = new NoticeJpaController(emf);
     }
     /*
     @Before
@@ -70,18 +72,17 @@ public class OperationTest {
         User user = instance.regist(userName, password);
         uid= user.getId();
         User result = userJpaController.findUser(uid);
-        assertNotNull("Test Regist Error",result);
+        assertNotNull("Test Regist Error", result);
         result = userJpaController.findUser(userName);
-        assertNotNull("Test Regist Error",result);
+        assertNotNull("Test Regist Error", result);
         
         user = instance.regist(userName, password);
-        assertNull("Test Regist Error",user);
+        assertNull("Test Regist Error", user);
         
         String anotherUserName = "bendan";
         String anotherPassword = "bendan";
         user = instance.regist(anotherUserName, anotherPassword);
         anotherToken = user.getToken();
-        
        }
     
     
@@ -95,23 +96,20 @@ public class OperationTest {
         String password = "abc";
         Operation instance = this.operation;
         User result = instance.login(userName, password);
-        assertNotNull("Test Login Error",result);
+        assertNotNull("Test Login Error", result);
        
         OperationTest.token=result.getToken();
         result = userJpaController.findUserByToken(OperationTest.token);
-        assertNotNull("Test Login Error",result);
+        assertNotNull("Test Login Error", result);
         
         password = "abd";
         result = instance.login(userName, password);
-        assertNull("Test Login Error",result);
+        assertNull("Test Login Error", result);
         
         userName = "a";
         result = instance.login(userName, password);
-        assertNull("Test Login Error",result);
-        System.out.println("Token = "+OperationTest.token);
-//assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        assertNull("Test Login Error", result);
+        System.out.println("Token = " + OperationTest.token);
     }
 
 
@@ -121,13 +119,13 @@ public class OperationTest {
     @Test
     public void test_c_AddActivity() {
         System.out.println("addActivity");
-        System.out.println("Token = "+OperationTest.token);
+        System.out.println("Token = " + OperationTest.token);
         String token = OperationTest.token;
-        System.out.println("Token = "+OperationTest.token);
+        System.out.println("Token = " + OperationTest.token);
         String string = "Activity 1";
         Operation instance = this.operation;
         Activity result = instance.addActivity(token, string);
-        assertNotNull("Test Addactivity Error",result);
+        assertNotNull("Test Addactivity Error", result);
         aid=result.getId();
         
         try {
@@ -136,7 +134,6 @@ public class OperationTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-            
     }
 
     /**
@@ -147,7 +144,7 @@ public class OperationTest {
         System.out.println("getActivities");
         Operation instance = this.operation;
         List<Activity> result = instance.getActivities();
-        assertNotNull("Test Getactivities Error",result);
+        assertNotNull("Test Getactivities Error", result);
     }
 
     /**
@@ -159,7 +156,7 @@ public class OperationTest {
         String token = OperationTest.token;
         Operation instance = this.operation;
         List<Activity> result = instance.getActivities(token);
-        assertNotNull("Test Getactivities Error",result);
+        assertNotNull("Test Getactivities Error", result);
         
         result = instance.getActivities(fakeToken);
         assertTrue(result.isEmpty());
@@ -175,8 +172,9 @@ public class OperationTest {
         Operation instance = this.operation;
         instance.participate(token, aid.toString());
         Activity activity=this.activityJpaController.findActivity(aid);
-        if(!activity.getParticipater().contains(userJpaController.findUser(uid)))fail();
-        assertNotNull("Test Participate Error",activity);
+        if (!activity.getParticipater().contains(userJpaController.findUser(uid)))
+            fail("Test Participate Error");
+        assertNotNull("Test Participate Error", activity);
                
     }
 
@@ -196,7 +194,7 @@ public class OperationTest {
             fail("Test UpdateActivity Error");
         }
         
-        token=fakeToken;
+        token = fakeToken;
         try {
             instance.updateActivity(token, aid.toString(), string);
             fail("Test UpdateActivity Error");
@@ -204,7 +202,7 @@ public class OperationTest {
             ex.printStackTrace();
         }
         
-        token=anotherToken;
+        token = anotherToken;
         try {
             instance.updateActivity(token, aid.toString(), string);
             fail("Test UpdateActivity Error");
@@ -305,7 +303,6 @@ public class OperationTest {
         } catch (Exception ex){
             ex.printStackTrace();
         }
-        
     }
 
     /**
@@ -317,8 +314,7 @@ public class OperationTest {
         String token = OperationTest.token;
         Operation instance = this.operation;
         Notice result = instance.deleteNotice(token, nid.toString());
-        assertNotNull("Test UpdateNotice Error",result);
-        
+        assertNotNull("Test UpdateNotice Error", result);
     }
 
     /**
@@ -327,14 +323,15 @@ public class OperationTest {
     @Test
     public void test_l_AddQuestion() {
         System.out.println("addQuestion");
-        String token = "";
-        String string = "";
+        String token = OperationTest.token;
+        String string = "This is a question";
         Operation instance = this.operation;
-        Question expResult = null;
         Question result = instance.addQuestion(token, string);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test AddQuestion Error", result);
+        qid = result.getId();
+        
+        result = instance.addQuestion(fakeToken, string);
+        assertNull("Test AddQuestion Error", result);
     }
 
     /**
@@ -344,11 +341,8 @@ public class OperationTest {
     public void test_m_GetQuestions_0args() {
         System.out.println("getQuestions");
         Operation instance = this.operation;
-        List<Question> expResult = null;
         List<Question> result = instance.getQuestions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test GetQuestions_0args Error", result);
     }
 
     /**
@@ -357,13 +351,13 @@ public class OperationTest {
     @Test
     public void test_n_GetQuestions_String() {
         System.out.println("getQuestions");
-        String token = "";
+        String token = OperationTest.token;
         Operation instance = this.operation;
-        List<Question> expResult = null;
         List<Question> result = instance.getQuestions(token);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test GetQuestions_String Error", result);
+        
+        result = instance.getQuestions(fakeToken);
+        assertNull("Test GetQuestions_String Error", result);
     }
 
     /**
@@ -372,15 +366,28 @@ public class OperationTest {
     @Test
     public void test_o_UpdateQuestion() throws Exception {
         System.out.println("updateQuestion");
-        String token = "";
-        String id = "";
-        String string = "";
+        String token = OperationTest.token;
+        String id = qid.toString();
+        String string = "This is a new question";
         Operation instance = this.operation;
-        boolean expResult = false;
         boolean result = instance.updateQuestion(token, id, string);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (!result)
+            fail("Test UpdateQuestion Error");
+        
+        try{
+            result = instance.updateQuestion(fakeToken, id, string);
+            fail("Test UpdateQuestion Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        
+        id = fakeQid.toString();
+        try{
+            result = instance.updateQuestion(token, id, string);
+            fail("Test UpdateQuestion Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -389,14 +396,27 @@ public class OperationTest {
     @Test
     public void test_p_DeleteQuestion() throws Exception {
         System.out.println("deleteQuestion");
-        String token = "";
-        String id = "";
+        String token = OperationTest.token;
+        String id = qid.toString();
         Operation instance = this.operation;
-        boolean expResult = false;
         boolean result = instance.deleteQuestion(token, id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (!result)
+            fail("Test DeleteQuestion Error");
+        
+        try{
+            result = instance.deleteQuestion(fakeToken, id);
+            fail("Test DeleteQuestion Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        
+        id = fakeQid.toString();
+        try{
+            result = instance.deleteQuestion(token, id);
+            fail("Test DeleteQuestion Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -405,15 +425,19 @@ public class OperationTest {
     @Test
     public void test_q_AddAnswer() {
         System.out.println("addAnswer");
-        String token = "";
-        String id = "";
-        String string = "";
+        String token = OperationTest.token;
+        String id = qid.toString();
+        String string = "This is an answer";
         Operation instance = this.operation;
-        Answer expResult = null;
         Answer result = instance.addAnswer(token, id, string);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test AddAnswer Error", result);
+        
+        result = instance.addAnswer(fakeToken, id, string);
+        assertNull("Test AddAnswer Error", result);
+        
+        id = fakeQid.toString();
+        result = instance.addAnswer(token, id, string);
+        assertNull("Test AddAnswer Error", result);
     }
 
     /**
@@ -422,13 +446,14 @@ public class OperationTest {
     @Test
     public void test_r_GetAnswers() {
         System.out.println("getAnswers");
-        String id = "";
+        String id = qid.toString();
         Operation instance = this.operation;
-        List<Answer> expResult = null;
         List<Answer> result = instance.getAnswers(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test GetAnswers Error", result);
+        
+        id = fakeQid.toString();
+        result = instance.getAnswers(id);
+        assertTrue(result.isEmpty());
     }
 
     /**
@@ -437,15 +462,28 @@ public class OperationTest {
     @Test
     public void test_s_UpdateAnswer() throws Exception {
         System.out.println("updateAnswer");
-        String token = "";
-        String id = "";
-        String string = "";
+        String token = OperationTest.token;
+        String id = qid.toString();
+        String string = "This is a new answer";
         Operation instance = this.operation;
-        boolean expResult = false;
         boolean result = instance.updateAnswer(token, id, string);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (!result)
+            fail("Test UpdateAnswer Error");
+        
+        try{
+            result = instance.updateAnswer(fakeToken, id, string);
+            fail("Test UpdateAnswer Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        
+        id = fakeQid.toString();
+        try{
+            result = instance.updateAnswer(token, id, string);
+            fail("Test UpdateAnswer Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -454,14 +492,27 @@ public class OperationTest {
     @Test
     public void test_t_DeleteAnswer() throws Exception {
         System.out.println("deleteAnswer");
-        String token = "";
-        String id = "";
+        String token = OperationTest.token;
+        String id = qid.toString();
         Operation instance = this.operation;
-        boolean expResult = false;
         boolean result = instance.deleteAnswer(token, id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (!result)
+            fail("Test DeleteAnswer Error");
+        
+        try{
+            result = instance.deleteAnswer(fakeToken, id);
+            fail("Test DeleteAnswer Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        
+        id = fakeQid.toString();
+        try{
+            result = instance.deleteAnswer(token, id);
+            fail("Test DeleteAnswer Error");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -470,13 +521,11 @@ public class OperationTest {
     @Test
     public void test_k_GetPushNotices() {
         System.out.println("getPushNotices");
-        String token = "";
+        String token = OperationTest.token;
         Operation instance = this.operation;
-        List<Notice> expResult = null;
         List<Notice> result = instance.getPushNotices(token);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull("Test GetPushNotices Error", result);
+        result = instance.getPushNotices(fakeToken);
+        assertTrue(result.isEmpty());
     }
-    
 }
