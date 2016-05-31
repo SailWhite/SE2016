@@ -1,9 +1,0 @@
-Still have errors:
-
-test_c_AddActivity
-test_i_AddNotice
-test_ka_DeleteNotice
-test_n_GetQuestions_String
-test_q_AddAnswer
-test_s_UpdateAnswer
-test_t_DeleteAnswer
