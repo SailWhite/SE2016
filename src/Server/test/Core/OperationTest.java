@@ -40,6 +40,8 @@ public class OperationTest {
     static private Long fakeNid = Long.valueOf(12345679);
     static private Long qid;
     static private Long fakeQid = Long.valueOf(12345679);
+    static private Long asid;
+    static private Long fakeAsid = Long.valueOf(12345679);
     
     public OperationTest() {
         EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("TheServerPU");
@@ -127,13 +129,9 @@ public class OperationTest {
         Activity result = instance.addActivity(token, string);
         assertNotNull("Test Addactivity Error", result);
         aid=result.getId();
-        
-        try {
-            result = instance.addActivity(fakeToken, string);
-            fail("Test Addactivity Error");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+        result = instance.addActivity(fakeToken, string);
+        assertNull("Test Regist Error", result);
     }
 
     /**
@@ -190,7 +188,7 @@ public class OperationTest {
         try {
             instance.updateActivity(token, aid.toString(), string);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             fail("Test UpdateActivity Error");
         }
         
@@ -199,7 +197,7 @@ public class OperationTest {
             instance.updateActivity(token, aid.toString(), string);
             fail("Test UpdateActivity Error");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         token = anotherToken;
@@ -207,7 +205,7 @@ public class OperationTest {
             instance.updateActivity(token, aid.toString(), string);
             fail("Test UpdateActivity Error");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -220,6 +218,7 @@ public class OperationTest {
         String token = OperationTest.token;
         Operation instance = this.operation;
         try {
+            System.out.println(token + "#" + aid);
             boolean result = instance.deleteActivity(token, aid.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -231,14 +230,14 @@ public class OperationTest {
             boolean result = instance.deleteActivity(token, aid.toString());
             fail("Test DeleteActivity Error");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         token=anotherToken;
         try {
             boolean result = instance.deleteActivity(token, aid.toString());
             fail("Test DeleteActivity Error");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -278,30 +277,30 @@ public class OperationTest {
         
         try{
             result = instance.updateNotice(token, nid.toString(), string, push_time);
-            fail("Test UpdateNotice Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            fail("Test UpdateNotice Error");
+            //ex.printStackTrace();
         }
         
         try{
             result = instance.updateNotice(token, fakeNid.toString(), string, push_time);
             fail("Test UpdateNotice Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         try{
             result = instance.updateNotice(fakeToken, nid.toString(), string, push_time);
             fail("Test UpdateNotice Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         try{
             result = instance.updateNotice(anotherToken, nid.toString(), string, push_time);
             fail("Test UpdateNotice Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -354,10 +353,10 @@ public class OperationTest {
         String token = OperationTest.token;
         Operation instance = this.operation;
         List<Question> result = instance.getQuestions(token);
-        assertNotNull("Test GetQuestions_String Error", result);
+        assertFalse("Test GetQuestions_String Error", result.isEmpty());
         
         result = instance.getQuestions(fakeToken);
-        assertNull("Test GetQuestions_String Error", result);
+        assertTrue("Test GetQuestions_String Error", result.isEmpty());
     }
 
     /**
@@ -378,7 +377,7 @@ public class OperationTest {
             result = instance.updateQuestion(fakeToken, id, string);
             fail("Test UpdateQuestion Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         id = fakeQid.toString();
@@ -386,7 +385,7 @@ public class OperationTest {
             result = instance.updateQuestion(token, id, string);
             fail("Test UpdateQuestion Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -394,7 +393,7 @@ public class OperationTest {
      * Test of deleteQuestion method, of class Operation.
      */
     @Test
-    public void test_p_DeleteQuestion() throws Exception {
+    public void test_ta_DeleteQuestion() throws Exception {
         System.out.println("deleteQuestion");
         String token = OperationTest.token;
         String id = qid.toString();
@@ -407,7 +406,7 @@ public class OperationTest {
             result = instance.deleteQuestion(fakeToken, id);
             fail("Test DeleteQuestion Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         id = fakeQid.toString();
@@ -415,7 +414,7 @@ public class OperationTest {
             result = instance.deleteQuestion(token, id);
             fail("Test DeleteQuestion Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -431,6 +430,7 @@ public class OperationTest {
         Operation instance = this.operation;
         Answer result = instance.addAnswer(token, id, string);
         assertNotNull("Test AddAnswer Error", result);
+        asid=result.getId();
         
         result = instance.addAnswer(fakeToken, id, string);
         assertNull("Test AddAnswer Error", result);
@@ -463,7 +463,7 @@ public class OperationTest {
     public void test_s_UpdateAnswer() throws Exception {
         System.out.println("updateAnswer");
         String token = OperationTest.token;
-        String id = qid.toString();
+        String id = asid.toString();
         String string = "This is a new answer";
         Operation instance = this.operation;
         boolean result = instance.updateAnswer(token, id, string);
@@ -474,15 +474,15 @@ public class OperationTest {
             result = instance.updateAnswer(fakeToken, id, string);
             fail("Test UpdateAnswer Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
-        id = fakeQid.toString();
+        id = fakeAsid.toString();
         try{
             result = instance.updateAnswer(token, id, string);
             fail("Test UpdateAnswer Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -493,7 +493,7 @@ public class OperationTest {
     public void test_t_DeleteAnswer() throws Exception {
         System.out.println("deleteAnswer");
         String token = OperationTest.token;
-        String id = qid.toString();
+        String id = asid.toString();
         Operation instance = this.operation;
         boolean result = instance.deleteAnswer(token, id);
         if (!result)
@@ -503,15 +503,15 @@ public class OperationTest {
             result = instance.deleteAnswer(fakeToken, id);
             fail("Test DeleteAnswer Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
-        id = fakeQid.toString();
+        id = fakeAsid.toString();
         try{
             result = instance.deleteAnswer(token, id);
             fail("Test DeleteAnswer Error");
         } catch (Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 

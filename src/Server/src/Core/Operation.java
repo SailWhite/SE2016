@@ -105,12 +105,12 @@ public class Operation {
         return true;
     }
     
-    public Notice addNotice(String token, String id, String string, String push_time) throws Exception {
+    public Notice addNotice(String token, String id, String string, String push_time) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
         Date date = sdf.parse(push_time);  
         User user=userJpaController.findUserByToken(token);
         Activity activity =activityJpaController.findActivity(Long.parseLong(id));
-        if(!activity.isAuth(user) || user==null)throw new Exception();
+        if(activity==null || !activity.isAuth(user) || user==null)return null;
         Content content=new Content(user, string);
         contentJpaController.create(content);
         Notice notice=new Notice(activity, content, date);
@@ -164,7 +164,7 @@ public class Operation {
     public boolean updateQuestion(String token, String id, String string) throws Exception {
         User user=userJpaController.findUserByToken(token);
         Question question =questionJpaController.findQuestion(Long.parseLong(id));
-        if(!question.isAuth(user) || user==null)
+        if(question==null || !question.isAuth(user) || user==null)
             throw new Exception();
         contentJpaController.destroy(question.getContent().getId());
         Content content=new Content(user, string);
@@ -177,7 +177,7 @@ public class Operation {
     public boolean deleteQuestion(String token, String id) throws Exception {
         User user=userJpaController.findUserByToken(token);
         Question question =questionJpaController.findQuestion(Long.parseLong(id));
-        if(!question.isAuth(user) || user==null)throw new Exception();
+        if(question==null || !question.isAuth(user) || user==null)throw new Exception();
         questionJpaController.destroy(question.getId());
         return true;
     }
@@ -185,9 +185,10 @@ public class Operation {
      public Answer addAnswer(String token, String id, String string) {
         User user=userJpaController.findUserByToken(token);
         if(user==null)return null;
+        Question question=questionJpaController.findQuestion(Long.parseLong(id));
+        if(question==null)return null;
         Content content=new Content(user, string);
         contentJpaController.create(content);
-        Question question=questionJpaController.findQuestion(Long.parseLong(id));
         Answer answer =new Answer(question, content);
         answerJpaController.create(answer);
         return answer;
@@ -201,7 +202,7 @@ public class Operation {
     public boolean updateAnswer(String token, String id, String string) throws Exception {
         User user=userJpaController.findUserByToken(token);
         Answer answer =answerJpaController.findAnswer(Long.parseLong(id));
-        if(!answer.isAuth(user) || user==null)throw new Exception();
+        if(answer==null || !answer.isAuth(user) || user==null)throw new Exception();
         contentJpaController.destroy(answer.getContent().getId());
         Content content=new Content(user, string);
         contentJpaController.create(content);
@@ -213,7 +214,7 @@ public class Operation {
     public boolean deleteAnswer(String token, String id) throws Exception {
         User user=userJpaController.findUserByToken(token);
         Answer answer =answerJpaController.findAnswer(Long.parseLong(id));
-        if(!answer.isAuth(user) || user==null)throw new Exception();
+        if(answer==null || !answer.isAuth(user) || user==null)throw new Exception();
         answerJpaController.destroy(answer.getId());
         return true;
     }

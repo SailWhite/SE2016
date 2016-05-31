@@ -53,6 +53,7 @@ public class Notice implements Serializable {
     }
     
     public Notice(Activity activity, Content content, Date push_time) {
+        this.activity=activity;
 	this.content = content;
 	this.push_time = push_time;
         this.isPushed=false;
