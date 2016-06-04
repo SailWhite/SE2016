@@ -5,10 +5,14 @@
  */
 package theserver;
 
+import com.google.gson.Gson;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
+import static theserver.Server.process;
 
 /**
  *
@@ -35,9 +39,44 @@ public class ServerTest {
      */
     @Test
     public void test_1_User() {
+        String debugMessage =  "";
         System.out.println("process-User-regist");
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Gson gson = new Gson();
+        Map<String, String> tokenMap = new HashMap<>();
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"sss\"}");
+        assertEquals(debugMessage, "{\"result\":\"Success\",\"id\":\"1\"}");
+        String tokenJson=process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"sss\"}");
+        tokenMap = gson.fromJson(tokenJson, tokenMap.getClass());
+        String token=tokenMap.get("token");
+                
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"sw8.1\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Success\",\"id\":\"2\"}");
+        String tokenJson2=process("{\"command\":\"login\",\"username\":\"sw8.1\",\"password\":\"233\"}");
+        tokenMap=new HashMap<>();
+        tokenMap=gson.fromJson(tokenJson2, tokenMap.getClass());
+        String token2=tokenMap.get("token2");
+        
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Failed\",\"id\":\"\"}");
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        debugMessage = process("{\"command\":\"regist\",\"username\":\"\",\"password\":\"\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        
+        debugMessage = process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Failed\",\"token\":\"\"}");
+        debugMessage = process("{\"command\":\"login\",\"username\":\"sw8\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Failed\",\"token\":\"\"}");
+        debugMessage = process("{\"command\":\"login\",\"username\":\"\",\"password\":\"\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        debugMessage = process("{\"command\":\"login\",\"username\":\"\",\"password\":\"233\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        debugMessage = process("{\"command\":\"login\",\"username\":\"sw8\",\"password\":\"\"}");
+        assertEquals(debugMessage, "{\"result\":\"Incorrect command\"}");
+        
     }
     
     /**
