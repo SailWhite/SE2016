@@ -56,6 +56,17 @@ public class Server extends HttpServlet{
         System.out.println(tokenJson);
         tokenMap=gson.fromJson(tokenJson, tokenMap.getClass());
         String token=tokenMap.get("token");
+        
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"sw8.1\",\"password\":\"233\"}"));
+        String tokenJson2=process("{\"command\":\"login\",\"username\":\"sw8.1\",\"password\":\"233\"}");
+        System.out.println(tokenJson2);
+        tokenMap=gson.fromJson(tokenJson2, tokenMap.getClass());
+        String token2=tokenMap.get("token2");
+        
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"233\"}"));
+        
+        
         System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
         System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is a god.\"}"));
         System.out.println(process("{\"command\":\"getActivities\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
@@ -78,6 +89,7 @@ public class Server extends HttpServlet{
         System.out.println(process("{\"command\":\"updateNotice\",\"token\":\""+token+"\",\"content\":\"bSampleNotice\",\"time\":\"2016-05-21 14:23:23\",\"id\":\"14\"}"));
         System.out.println(process("{\"command\":\"getNotices\",\"token\":\""+token+"\"}"));
         System.out.println(process("{\"command\":\"deleteNotice\",\"token\":\""+token+"\",\"id\":\"14\"}"));
+        
     }
     
     public void doGet(HttpServletRequest request,
