@@ -40,6 +40,7 @@ public class ServerTest {
     @Test
     public void test_1_User() {
         String debugMessage =  "";
+        
         System.out.println("process-User-regist");
         
         Gson gson = new Gson();
@@ -48,14 +49,14 @@ public class ServerTest {
         assertEquals(debugMessage, "{\"result\":\"Success\",\"id\":\"1\"}");
         String tokenJson=process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"sss\"}");
         tokenMap = gson.fromJson(tokenJson, tokenMap.getClass());
-        String token=tokenMap.get("token");
+        token=tokenMap.get("token");
                 
         debugMessage = process("{\"command\":\"regist\",\"username\":\"sw8.1\",\"password\":\"233\"}");
         assertEquals(debugMessage, "{\"result\":\"Success\",\"id\":\"2\"}");
         String tokenJson2=process("{\"command\":\"login\",\"username\":\"sw8.1\",\"password\":\"233\"}");
         tokenMap=new HashMap<>();
         tokenMap=gson.fromJson(tokenJson2, tokenMap.getClass());
-        String token2=tokenMap.get("token2");
+        anotherToken=tokenMap.get("token2");
         
         debugMessage = process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"233\"}");
         assertEquals(debugMessage, "{\"result\":\"Failed\",\"id\":\"\"}");
