@@ -64,8 +64,15 @@ public class Server extends HttpServlet{
         String token2=tokenMap.get("token2");
         
         System.out.println(process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"233\"}"));
-        System.out.println(process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"sw7\",\"password\":\"\"}"));
+        System.out.println(process("{\"command\":\"regist\",\"username\":\"\",\"password\":\"\"}"));
         
+        System.out.println(process("{\"command\":\"login\",\"username\":\"sw7\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"login\",\"username\":\"sw8\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"login\",\"username\":\"\",\"password\":\"\"}"));
+        System.out.println(process("{\"command\":\"login\",\"username\":\"\",\"password\":\"233\"}"));
+        System.out.println(process("{\"command\":\"login\",\"username\":\"sw8\",\"password\":\"\"}"));
         
         System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"ssscontents\"}"));
         System.out.println(process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"Sailwhite is a god.\"}"));
