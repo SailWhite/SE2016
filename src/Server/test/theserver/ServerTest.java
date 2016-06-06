@@ -368,50 +368,50 @@ public class ServerTest {
         5. Answer ID 不存在
         */
 //Add Answer 11 for Question 1
-        String debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 11\",\"id\":\"4\"}");
-        assertEquals("{\"result\":\"Success\",\"id\":\"9\"}", debugMessage);
+        String debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 11\",\"id\":\"9\"}");
+        assertEquals("{\"result\":\"Success\",\"id\":\"14\"}", debugMessage);
         /*
-        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 11","id":"4"}
+        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 11","id":"9"}
         覆盖等价类为1
-        期望输出为{"result":"Success","id":"9"}
-        实际输出为{"result":"Success","id":"9"}
+        期望输出为{"result":"Success","id":"14"}
+        实际输出为{"result":"Success","id":"14"}
         结果正确
         */
 //Add Answer 12 for Question 1
-        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 12\",\"id\":\"4\"}");
-        assertEquals("{\"result\":\"Success\",\"id\":\"11\"}", debugMessage);
+        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 12\",\"id\":\"9\"}");
+        assertEquals("{\"result\":\"Success\",\"id\":\"16\"}", debugMessage);
         /*
-        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 12","id":"4"}
+        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 12","id":"9"}
         覆盖等价类为1
-        期望输出为{"result":"Success","id":"11"}
-        实际输出为{"result":"Success","id":"11"}
+        期望输出为{"result":"Success","id":"16"}
+        实际输出为{"result":"Success","id":"16"}
         结果正确
         */
 //Add Answer 13 for Question 1 ( Another Token )
-        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + anotherToken + "\",\"content\":\"This is Answer 13\",\"id\":\"4\"}");
+        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + anotherToken + "\",\"content\":\"This is Answer 13\",\"id\":\"9\"}");
         assertEquals("{\"result\":\"Failed\",\"id\":\"\"}", debugMessage);
         /*
-        输入为{"command":"addAnswer","token":(anotherToken),"content":"This is Answer 13","id":"4"}
+        输入为{"command":"addAnswer","token":(anotherToken),"content":"This is Answer 13","id":"9"}
         覆盖等价类为2
         期望输出为{"result":"Failed","id":""}
         实际输出为{"result":"Failed","id":""}
         结果正确
         */
 //Add Answer 14 for Question 1 ( Fake Token )
-        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + fakeToken + "\",\"content\":\"This is Answer 14\",\"id\":\"4\"}");
+        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + fakeToken + "\",\"content\":\"This is Answer 14\",\"id\":\"9\"}");
         assertEquals("{\"result\":\"Failed\",\"id\":\"\"}", debugMessage);
         /*
-        输入为{"command":"addAnswer","token":(fakeToken),"content":"This is Answer 14","id":"4"}
+        输入为{"command":"addAnswer","token":(fakeToken),"content":"This is Answer 14","id":"9"}
         覆盖等价类为2
         期望输出为{"result":"Failed","id":""}
         实际输出为{"result":"Failed","id":""}
         结果正确
         */
 //Add Answer 21 for Question 2 ( Unexisted Question )
-        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 21\",\"id\":\"6\"}");
+        debugMessage = process("{\"command\":\"addAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 21\",\"id\":\"11\"}");
         assertEquals("{\"result\":\"Failed\",\"id\":\"\"}", debugMessage);
         /*
-        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 21","id":"6"}
+        输入为{"command":"addAnswer","token":(token),"content":"This is Answer 21","id":"11"}
         覆盖等价类为3
         期望输出为{"result":"Failed","id":""}
         实际输出为{"result":"Failed","id":""}
@@ -419,10 +419,10 @@ public class ServerTest {
         */
         
 //Get Answer List of Question 1
-        debugMessage = process("{\"command\":\"getAnswers\",\"id\":\"4\"}");
-        assertEquals("{\"result\":\"Success\",\"answers\":\"[{\\\"id\\\":9,\\\"question\\\":{\\\"id\\\":4,\\\"content\\\":{\\\"id\\\":7,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\""+ token + "\\\"}}},\\\"content\\\":{\\\"id\\\":8,\\\"text\\\":\\\"This is Answer 11\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},{\\\"id\\\":11,\\\"question\\\":{\\\"id\\\":4,\\\"content\\\":{\\\"id\\\":7,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},\\\"content\\\":{\\\"id\\\":10,\\\"text\\\":\\\"This is Answer 12\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}}]\"}", debugMessage);
+        debugMessage = process("{\"command\":\"getAnswers\",\"id\":\"9\"}");
+        assertEquals("{\"result\":\"Success\",\"answers\":\"[{\\\"id\\\":14,\\\"question\\\":{\\\"id\\\":9,\\\"content\\\":{\\\"id\\\":12,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\""+ token + "\\\"}}},\\\"content\\\":{\\\"id\\\":13,\\\"text\\\":\\\"This is Answer 11\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},{\\\"id\\\":16,\\\"question\\\":{\\\"id\\\":9,\\\"content\\\":{\\\"id\\\":12,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},\\\"content\\\":{\\\"id\\\":15,\\\"text\\\":\\\"This is Answer 12\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}}]\"}", debugMessage);
         /*
-        输入为{"command":"getAnswers","id":"4"}
+        输入为{"command":"getAnswers","id":"9"}
         覆盖等价类为1
         期望输出为{"result":"Success","answers":["id":"9"……]}
         实际输出为{"result":"Success","answers":["id":"9"……]}
@@ -430,10 +430,10 @@ public class ServerTest {
         */
 //Get Answer List of Question 2 ( Unexisted Question )
 //这里似乎返回Failed更恰当，但得到的结果是Success与一个空表
-        debugMessage = process("{\"command\":\"getAnswers\",\"id\":\"6\"}");
+        debugMessage = process("{\"command\":\"getAnswers\",\"id\":\"11\"}");
         assertEquals("{\"result\":\"Success\",\"answers\":\"[]\"}", debugMessage);
         /*
-        输入为{"command":"getAnswers","id":"6"}
+        输入为{"command":"getAnswers","id":"11"}
         覆盖等价类为3
         期望输出为{"result":"Failed"}
         实际输出为{"result":"Success","answers":[]}
@@ -449,30 +449,30 @@ public class ServerTest {
         //assertEquals("{\"result\":\"Success\",\"answers\":\"[]\"}", debugMessage);
         
 //Update Answer 11
-        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + token + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Success\"}", debugMessage);
         /*
-        输入为{"command":"updateAnswer","token":(token),"content":"This is Answer 11 NEW","id":"9"}
+        输入为{"command":"updateAnswer","token":(token),"content":"This is Answer 11 NEW","id":"14"}
         覆盖等价类为1
         期望输出为{"result":"Success"}
         实际输出为{"result":"Success"}
         结果正确
         */
 //Update Answer 11 ( Fake Token )
-        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + fakeToken + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + fakeToken + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
         /*
-        输入为{"command":"updateAnswer","token":(fakeToken),"content":"This is Answer 11 NEW","id":"9"}
+        输入为{"command":"updateAnswer","token":(fakeToken),"content":"This is Answer 11 NEW","id":"14"}
         覆盖等价类为2
         期望输出为{"result":"Failed"}
         实际输出为{"result":"Failed"}
         结果正确
         */
 //Update Answer ( Another Token )
-        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + anotherToken + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"updateAnswer\",\"token\":\"" + anotherToken + "\",\"content\":\"This is Answer 11 NEW\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
         /*
-        输入为{"command":"updateAnswer","token":(anotherToken),"content":"This is Answer 11 NEW","id":"9"}
+        输入为{"command":"updateAnswer","token":(anotherToken),"content":"This is Answer 11 NEW","id":"14"}
         覆盖等价类为4
         期望输出为{"result":"Failed"}
         实际输出为{"result":"Failed"}
@@ -490,30 +490,30 @@ public class ServerTest {
         */
         
 //Delete Answer 11 ( Fake Token )
-        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + fakeToken + "\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + fakeToken + "\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
         /*
-        输入为{"command":"deleteAnswer","token":(fakeToken),"id":"9"}
+        输入为{"command":"deleteAnswer","token":(fakeToken),"id":"14"}
         覆盖等价类为2
         期望输出为{"result":"Failed"}
         实际输出为{"result":"Failed"}
         结果正确
         */
 //Delete Answer 11
-        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + token + "\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + token + "\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Success\"}", debugMessage);
         /*
-        输入为{"command":"deleteAnswer","token":(token),"id":"9"}
+        输入为{"command":"deleteAnswer","token":(token),"id":"14"}
         覆盖等价类为1
         期望输出为{"result":"Success"}
         实际输出为{"result":"Success"}
         结果正确
         */
 //Delete Again
-        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + token + "\",\"id\":\"9\"}");
+        debugMessage = process("{\"command\":\"deleteAnswer\",\"token\":\"" + token + "\",\"id\":\"14\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
         /*
-        输入为{"command":"deleteAnswer","token":(token),"id":"9"}
+        输入为{"command":"deleteAnswer","token":(token),"id":"14"}
         覆盖等价类为5
         期望输出为{"result":"Failed"}
         实际输出为{"result":"Failed"}
