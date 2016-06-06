@@ -211,53 +211,147 @@ public class ServerTest {
      */
     @Test
     public void test_2_Question() {
+        
+        /*等价类
+        1.token正确
+        2.token错误
+        3.Question ID 与 token相符
+        4.Question ID 与 token不符
+        5.Question ID 不存在
+        */
+        
 //Add Question 1
         String debugMessage = process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"This is Question 1\"}");
         assertEquals("{\"result\":\"Success\",\"id\":\"4\"}", debugMessage);
+        /*
+        输入为{"command":"addQuestion","token":(token) "content":"This is Question 1"}
+        覆盖等价类为1
+        期望输出为{"result":"Success","id":"4"}
+        实际输出为{"result":"Success","id":"4"}
+        结果正确
+        */
+        
 //Add Question 2
         debugMessage = process("{\"command\":\"addQuestion\",\"token\":\""+token+"\",\"content\":\"This is Question 2\"}");
         assertEquals("{\"result\":\"Success\",\"id\":\"6\"}", debugMessage);
+        /*
+        输入为{"command":"addQuestion","token":(token) "content":"This is Question 2"}
+        覆盖等价类为1
+        期望输出为{"result":"Success","id":"6"}
+        实际输出为{"result":"Success","id":"6"}
+        结果正确
+        */
+        
 //Add Question 3 token=null
         debugMessage = process("{\"command\":\"addQuestion\",\"token\":\"\",\"content\":\"This is Question 3\"}");
         assertEquals("{\"result\":\"Incorrect command\"}", debugMessage);
+        /*
+        输入为{"command":"addQuestion","token":(null) "content":"This is Question 3"}
+        覆盖等价类为2
+        期望输出为{"result":"Incorrect command"}
+        实际输出为{"result":"Incorrect command"}
+        结果正确
+        */
 
 //Get Questions of User 1
-//输出不太对？
         debugMessage = process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}");
         assertEquals("{\"result\":\"Success\",\"questions\":\"{\\\"author\\\":\\\"{\\\\\\\"id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"username\\\\\\\":\\\\\\\"sw7\\\\\\\"}\\\",\\\"id\\\":\\\"6\\\",\\\"content\\\":\\\"This is Question 2\\\"}\"}", debugMessage);
-
+        /*
+        输入为{"command":"getQuestions","token":(token)"}
+        覆盖等价类为1
+        期望输出为{"result":"Success","questions":[{"id":"4","content":"This is Question 1","author":{"id":"1","username":"sw7"}},
+                                                  {"id":"6","content":"This is Question 2","author":{"id":"1","username":"sw7"}}]}
+        实际输出为{"result":"Success","questions":{"author":{"id":"1","username":"sw7"},"id":"6","content":"This is Question 2"}
+        结果不正确？
+        */
+        
 //token=null
         debugMessage = process("{\"command\":\"getQuestions\",\"token\":\"\"}");
-        //assertEquals("{\"result\":\"Incorrect command\"}", debugMessage);
-
+        assertEquals("{\"result\":\"Incorrect command\"}", debugMessage);
+        /*
+        输入为{"command":"getQuestions","token":(token)"}
+        覆盖等价类为1
+        期望输出为{"result":"Incorrect command"}
+        实际输出为{"result":"Success","questions":{"author":{"id":"1","username":"sw7"},"id":"6","content":"This is Question 2"}
+        结果不正确？
+        */
+        
 //Update Question 1
         debugMessage = process("{\"command\":\"updateQuestion\",\"token\":\""+token+"\",\"content\":\"This is Question 1(Updated)\",\"id\":\"4\"}");
         assertEquals("{\"result\":\"Success\"}", debugMessage);
+        /*
+        输入为{"command":"updateQuestion","token":(token) "content":"This is Question 1(Updated)","id":"4"}
+        覆盖等价类为13
+        期望输出为{"result":"Success"}
+        实际输出为{"result":"Success"}
+        结果正确
+        */
 
 //Mismatched id
         debugMessage = process("{\"command\":\"updateQuestion\",\"token\":\""+anotherToken+"\",\"content\":\"This is Question 1(Mismatched)\",\"id\":\"4\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        /*
+        输入为{"command":"updateQuestion","token":(anotherToken) "content":"This is Question 1(Mismatched)","id":"4"}
+        覆盖等价类为14
+        期望输出为{"result":"Failed"}
+        实际输出为{"result":"Failed"}
+        结果正确
+        */
 
 //Invalid id
         debugMessage = process("{\"command\":\"updateQuestion\",\"token\":\""+token+"\",\"content\":\"This is Question 1(Invalid id)\",\"id\":\"5\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        /*
+        输入为{"command":"updateQuestion","token":(token) "content":"This is Question 1(Invalid id)","id":"5"}
+        覆盖等价类为15
+        期望输出为{"result":"Failed"}
+        实际输出为{"result":"Failed"}
+        结果正确
+        */
         
 //Delete Question 2
         debugMessage = process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"6\"}");
         assertEquals("{\"result\":\"Success\"}", debugMessage);
+        /*
+        输入为{"command":"deleteQuestion","token":(token) "content":"This is Question 1","id":"6"}
+        覆盖等价类为13
+        期望输出为{"result":"Success"}
+        实际输出为{"result":"Success"}
+        结果正确
+        */
 
 //Mismatched id       
         debugMessage = process("{\"command\":\"deleteQuestion\",\"token\":\""+anotherToken+"\",\"id\":\"6\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        /*
+        输入为{"command":"deleteQuestion","token":(token) "content":"This is Question 1","id":"6"}
+        覆盖等价类为14
+        期望输出为{"result":"Failed"}
+        实际输出为{"result":"Failed"}
+        结果正确
+        */
         
 //Delete Again
         debugMessage = process("{\"command\":\"deleteQuestion\",\"token\":\""+token+"\",\"id\":\"6\"}");
         assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        /*
+        输入为{"command":"deleteQuestion","token":(token) "content":"This is Question 1(id)","id":"6"}
+        覆盖等价类为15
+        期望输出为{"result":"Failed"}
+        实际输出为{"result":"Failed"}
+        结果正确
+        */
+        
 //Check result
         debugMessage = process("{\"command\":\"getQuestions\",\"token\":\""+token+"\"}");
         assertEquals("{\"result\":\"Success\",\"questions\":\"{\\\"author\\\":\\\"{\\\\\\\"id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"username\\\\\\\":\\\\\\\"sw7\\\\\\\"}\\\",\\\"id\\\":\\\"4\\\",\\\"content\\\":\\\"This is Question 1(Updated)\\\"}\"}", debugMessage);
-        
-        //fail("The test case is a prototype.");
+        /*
+        输入为{"command":"getQuestions","token":(token)"}
+        覆盖等价类为1
+        期望输出为{"result":"Success","questions":{"id":"4","content":"This is Question 1(Updated)","author":{"id":"1","username":"sw7"}}}
+        实际输出为{"result":"Success","questions":{"author":{"id":"1","username":"sw7"},"id":"4","content":"This is Question 1"}
+        结果正确？
+        */
     }
     
     /**
