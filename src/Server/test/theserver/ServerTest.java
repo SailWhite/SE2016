@@ -165,8 +165,36 @@ public class ServerTest {
      */
     @Test
     public void test_2_Activity() {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // add an activity to a valid user
+        String debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"This is Activity 01.\"}");
+        System.out.println(debugMessage);
+        
+        // add an activity to an invalid user
+        debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+fakeToken+"\",\"content\":\"This is Activity -1.\"}");
+        System.out.println(debugMessage);
+        
+        // add another activity to the same valid user
+        debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"This is Activity 02.\"}");
+        System.out.println(debugMessage);
+        
+        // show the activity list of a valid user
+        debugMessage = process("{\"command\":\"getActivities\",\"token\":\""+token+"\"}");
+        System.out.println(debugMessage);
+        
+        // show the activity list of an invalid user
+        debugMessage = process("{\"command\":\"getActivities\",\"token\":\""+fakeToken+"\"}");
+        System.out.println(debugMessage);
+        
+        // show all the activities
+        debugMessage = process("{\"command\":\"getActivities\"}");
+        System.out.println(debugMessage);
+        
+        // update a valid activity with a correct user token
+        debugMessage = process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"new 01\",\"id\":\"4\"}");
+        System.out.println(debugMessage);
+        
+        // update a valid activity with an incorrect user token
+        // ...
     }
     
     /**
