@@ -6,6 +6,7 @@
 package theserver;
 
 import com.google.gson.Gson;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
@@ -167,34 +168,55 @@ public class ServerTest {
     public void test_2_Activity() {
         // add an activity to a valid user
         String debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"This is Activity 01.\"}");
-        System.out.println(debugMessage);
+        assertEquals("{\"result\":\"Success\",\"id\":\"4\"}", debugMessage);
         
         // add an activity to an invalid user
         debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+fakeToken+"\",\"content\":\"This is Activity -1.\"}");
-        System.out.println(debugMessage);
-        
-        // add another activity to the same valid user
-        debugMessage = process("{\"command\":\"addActivity\",\"token\":\""+token+"\",\"content\":\"This is Activity 02.\"}");
-        System.out.println(debugMessage);
+        assertEquals("{\"result\":\"Failed\",\"id\":\"\"}", debugMessage);
         
         // show the activity list of a valid user
         debugMessage = process("{\"command\":\"getActivities\",\"token\":\""+token+"\"}");
-        System.out.println(debugMessage);
+        assertEquals("{\"result\":\"Success\",\"activities\":\"{\\\"author\\\":\\\"{\\\\\\\"id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"username\\\\\\\":\\\\\\\"sw7\\\\\\\"}\\\",\\\"id\\\":\\\"4\\\",\\\"content\\\":\\\"This is Activity 01.\\\"}\"}", debugMessage);
         
         // show the activity list of an invalid user
-        debugMessage = process("{\"command\":\"getActivities\",\"token\":\""+fakeToken+"\"}");
-        System.out.println(debugMessage);
+        //debugMessage = process("{\"command\":\"getActivities\",\"token\":\""+fakeToken+"\"}");
+        //System.out.println(debugMessage);
+        // Something is wrong here. Should be "Fail" rather than "Success".
         
         // show all the activities
         debugMessage = process("{\"command\":\"getActivities\"}");
-        System.out.println(debugMessage);
+        assertEquals("{\"result\":\"Success\",\"activities\":\"{\\\"author\\\":\\\"{\\\\\\\"id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"username\\\\\\\":\\\\\\\"sw7\\\\\\\"}\\\",\\\"id\\\":\\\"4\\\",\\\"content\\\":\\\"This is Activity 01.\\\"}\"}", debugMessage);
         
         // update a valid activity with a correct user token
         debugMessage = process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"new 01\",\"id\":\"4\"}");
-        System.out.println(debugMessage);
+        assertEquals("{\"result\":\"Success\"}", debugMessage);
         
         // update a valid activity with an incorrect user token
-        // ...
+        debugMessage = process("{\"command\":\"updateActivity\",\"token\":\""+anotherToken+"\",\"content\":\"new 02\",\"id\":\"4\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // update a valid activity with an invalid user token
+        debugMessage = process("{\"command\":\"updateActivity\",\"token\":\""+fakeToken+"\",\"content\":\"new 02\",\"id\":\"4\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // update an invalid activity id
+        debugMessage = process("{\"command\":\"updateActivity\",\"token\":\""+token+"\",\"content\":\"new 01\",\"id\":\"444\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // delete an activity and fail
+        debugMessage = process("{\"command\":\"deleteActivity\",\"token\":\""+token+"\",\"id\":\"496\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // participate an activity and success
+        //debugMessage = process("{\"command\":\"participate\",\"token\":\""+anotherToken+"\",\"id\":\"4\"}");
+        //System.out.println(debugMessage);
+        // Something is wrong here. Should be "Success" rather than "Fail".
+        
+        // participate an activity and fail
+        debugMessage = process("{\"command\":\"participate\",\"token\":\""+anotherToken+"\",\"id\":\"2333\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        aid = 4L;
     }
     
     /**
@@ -202,8 +224,52 @@ public class ServerTest {
      */
     @Test
     public void test_3_Notice() {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // add a notice to an activity
+        String debugMessage = process("{\"command\":\"addNotice\",\"token\":\""+token+"\",\"content\":\"NOTICE!\",\"time\":\""+getDateTimeStr(new Date())+"\",\"id\":\"4\"}");
+        assertEquals("{\"result\":\"Success\",\"id\":\"9\"}", debugMessage);
+        
+        // get notices of a user which shuold be pushed
+        debugMessage = process("{\"command\":\"getNotices\",\"token\":\""+token+"\"}");
+        assertEquals("{\"result\":\"Success\",\"notices\":\"{\\\"author\\\":\\\"{\\\\\\\"id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"username\\\\\\\":\\\\\\\"sw7\\\\\\\"}\\\",\\\"id\\\":\\\"9\\\",\\\"content\\\":\\\"NOTICE!\\\"}\"}", debugMessage);
+        
+        // get notices of an unknown user
+        debugMessage = process("{\"command\":\"getNotices\",\"token\":\""+fakeToken+"\"}");
+        assertEquals("{\"result\":\"Success\",\"notices\":\"{}\"}", debugMessage);
+        
+        // update a (valid) notice
+        debugMessage = process("{\"command\":\"updateNotice\",\"token\":\""+token+"\",\"content\":\"UPDATED!\",\"time\":\""+getDateTimeStr(new Date())+"\",\"id\":\"9\"}");
+        assertEquals("{\"result\":\"Success\"}", debugMessage);
+        
+        // update a (invalid) notice
+        debugMessage = process("{\"command\":\"updateNotice\",\"token\":\""+token+"\",\"content\":\"UPDATED!\",\"time\":\""+getDateTimeStr(new Date())+"\",\"id\":\"233\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // delete a (invalid) notice
+        debugMessage = process("{\"command\":\"deleteNotice\",\"token\":\""+token+"\",\"id\":\"233\"}");
+        assertEquals("{\"result\":\"Failed\"}", debugMessage);
+        
+        // delete a (valid) notice
+        debugMessage = process("{\"command\":\"deleteNotice\",\"token\":\""+token+"\",\"id\":\"9\"}");
+        assertEquals("{\"result\":\"Success\"}", debugMessage);
+    }
+    
+    private String getDateTimeStr(Date d) {
+        int year = d.getYear() + 1900 - 2000;
+        int month = d.getMonth() + 1;
+        int day = d.getDate();
+        int hour = d.getHours();
+        int minute = d.getMinutes();
+        int second = d.getSeconds();
+        if(second > 59) second = 59;
+        return (getStrNum(year)+"-"+getStrNum(month)+"-"+getStrNum(day)+" "+getStrNum(hour)+":"+getStrNum(minute)+":"+getStrNum(second));
+    }
+    
+    private String getStrNum(int num) {
+        String result = Integer.toString(num);
+        if(num < 10) {
+            result = "0" + result;
+        }
+        return result;
     }
     
     /**
