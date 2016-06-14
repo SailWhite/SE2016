@@ -507,7 +507,6 @@ public class ServerTest {
         */
         
 //Get Answer List of User 1
-//好像跟上边的Question有一样的错误
         //debugMessage = process("{\"command\":\"getAnswers\",\"token\":\"" + token + "\"}");
         //assertEquals("{\"result\":\"Success\",\"answers\":\"[{\\\"id\\\":9,\\\"question\\\":{\\\"id\\\":4,\\\"content\\\":{\\\"id\\\":7,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\""+ token + "\\\"}}},\\\"content\\\":{\\\"id\\\":8,\\\"text\\\":\\\"This is Answer 11\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},{\\\"id\\\":11,\\\"question\\\":{\\\"id\\\":4,\\\"content\\\":{\\\"id\\\":7,\\\"text\\\":\\\"This is Question 1(Updated)\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}},\\\"content\\\":{\\\"id\\\":10,\\\"text\\\":\\\"This is Answer 12\\\",\\\"author\\\":{\\\"id\\\":1,\\\"username\\\":\\\"sw7\\\",\\\"password\\\":\\\"sss\\\",\\\"authority\\\":0,\\\"actSet\\\":[],\\\"token\\\":\\\"" + token + "\\\"}}}]\"}", debugMessage);
 //Get Answer List of User ( Fake Token )
